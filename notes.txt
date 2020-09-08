@@ -1,0 +1,7 @@
+CSV File
+- Uncertain what negative values mean within the data.
+- I changed all negative values to positive values.
+
+Report
+- Uncertain on which route is cleaner; one with various method calls, or the one with everything within the method.
+- I went both routes.
