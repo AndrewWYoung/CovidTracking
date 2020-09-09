@@ -1,1 +1,3 @@
-# CovidTracking
+# Covid Tracking Project
+## Overview
+A CS 3201 (Program Construction I) project for learning **clean code** in **C#**. The project loads in a CSV file with data relating to Covid-19 and parses it for information. Data can then be filtered by State (since this is currently focused on data from the United States) which in turns displays a detailed summary of information as well as monthly breakdowns.
