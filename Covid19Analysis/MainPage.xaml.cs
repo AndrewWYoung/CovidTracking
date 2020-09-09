@@ -60,11 +60,11 @@ namespace Covid19Analysis
                     this.summaryTextBox.Text = "Loading...";
 
                     var csvReader = new CsvReader(storageFile);
-                    var stateDataCollection = new CovidLocationCollection();
+                    var stateDataCollection = new CovidLocationDataCollection();
                     stateDataCollection.AddAllCovidCases(await csvReader.Parse());
 
-                    var report = new OutputBuilder(stateDataCollection.GetStateData("GA"));
-                    this.summaryTextBox.Text = report.GetStateSummary() + report.GetYearlySummary();
+                    var report = new OutputBuilder(stateDataCollection.GetLocationData("GA"));
+                    this.summaryTextBox.Text = report.GetLocationSummary() + report.GetYearlySummary();
                 }
                 catch (Exception)
                 {

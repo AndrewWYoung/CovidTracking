@@ -6,32 +6,32 @@ namespace Covid19Analysis.Model
     /// <summary>
     ///     Class to hold the collection of States
     /// </summary>
-    public class CovidLocationCollection
+    public class CovidLocationDataCollection
     {
-        private readonly Dictionary<string, CovidLocationData> stateCollection;
+        private readonly Dictionary<string, CovidLocationData> covidLocationDataCollection;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="CovidLocationCollection"/> class.
+        ///     Initializes a new instance of the <see cref="CovidLocationDataCollection"/> class.
         /// </summary>
-        public CovidLocationCollection()
+        public CovidLocationDataCollection()
         {
-            this.stateCollection = new Dictionary<string, CovidLocationData>();
+            this.covidLocationDataCollection = new Dictionary<string, CovidLocationData>();
         }
 
         /// <summary>
         ///     Gets the LocationData if it exists.
         /// </summary>
-        /// <param name="stateAbbreviation">The state / territory abbreviation you want to search for.</param>
+        /// <param name="locationAbbreviation">The state / territory abbreviation you want to search for.</param>
         /// <returns>The LocationData / Territory and it's related data</returns>
-        public CovidLocationData GetStateData(string stateAbbreviation)
+        public CovidLocationData GetLocationData(string locationAbbreviation)
         {
-            CovidLocationData stateData = null;
-            if (stateCollection.ContainsKey(stateAbbreviation))
+            CovidLocationData locationData = null;
+            if (covidLocationDataCollection.ContainsKey(locationAbbreviation))
             {
-                stateData = this.stateCollection[stateAbbreviation];
+                locationData = this.covidLocationDataCollection[locationAbbreviation];
             }
 
-            return stateData;
+            return locationData;
         }
 
         /// <summary>
@@ -46,15 +46,15 @@ namespace Covid19Analysis.Model
                 throw new ArgumentNullException(nameof(covidCase));
             }
 
-            if (stateCollection.ContainsKey(covidCase.State))
+            if (covidLocationDataCollection.ContainsKey(covidCase.Location))
             {
-                stateCollection[covidCase.State].AddCovidCase(covidCase);
+                covidLocationDataCollection[covidCase.Location].AddCovidCase(covidCase);
             }
             else
             {
-                CovidLocationData newState = new CovidLocationData(covidCase.State);
-                stateCollection.Add(newState.State, newState);
-                stateCollection[covidCase.State].AddCovidCase(covidCase);
+                CovidLocationData newState = new CovidLocationData(covidCase.Location);
+                covidLocationDataCollection.Add(newState.State, newState);
+                covidLocationDataCollection[covidCase.Location].AddCovidCase(covidCase);
             }
         }
 

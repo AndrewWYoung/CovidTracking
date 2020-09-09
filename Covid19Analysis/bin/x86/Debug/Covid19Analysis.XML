@@ -98,7 +98,7 @@
                 Contains information of a reported covid case.
             </summary>
         </member>
-        <member name="P:Covid19Analysis.Model.CovidCase.State">
+        <member name="P:Covid19Analysis.Model.CovidCase.Location">
             <summary>
                 Gets or sets the name of the LocationData.
             </summary>
@@ -362,31 +362,31 @@
             <param name="covidCases">The covid cases.</param>
             <returns>CovidCase with the lowest number of positive.</returns>
         </member>
-        <member name="T:Covid19Analysis.Model.CovidLocationCollection">
+        <member name="T:Covid19Analysis.Model.CovidLocationDataCollection">
             <summary>
                 Class to hold the collection of States
             </summary>
         </member>
-        <member name="M:Covid19Analysis.Model.CovidLocationCollection.#ctor">
+        <member name="M:Covid19Analysis.Model.CovidLocationDataCollection.#ctor">
             <summary>
-                Initializes a new instance of the <see cref="T:Covid19Analysis.Model.CovidLocationCollection"/> class.
+                Initializes a new instance of the <see cref="T:Covid19Analysis.Model.CovidLocationDataCollection"/> class.
             </summary>
         </member>
-        <member name="M:Covid19Analysis.Model.CovidLocationCollection.GetStateData(System.String)">
+        <member name="M:Covid19Analysis.Model.CovidLocationDataCollection.GetLocationData(System.String)">
             <summary>
                 Gets the LocationData if it exists.
             </summary>
-            <param name="stateAbbreviation">The state / territory abbreviation you want to search for.</param>
+            <param name="locationAbbreviation">The state / territory abbreviation you want to search for.</param>
             <returns>The LocationData / Territory and it's related data</returns>
         </member>
-        <member name="M:Covid19Analysis.Model.CovidLocationCollection.AddCovidCase(Covid19Analysis.Model.CovidCase)">
+        <member name="M:Covid19Analysis.Model.CovidLocationDataCollection.AddCovidCase(Covid19Analysis.Model.CovidCase)">
             <summary>
                 Adds the specified covid case to the collection.
             </summary>
             <param name="covidCase">The covid case you want to add.</param>
             <exception cref="T:System.ArgumentNullException">covidCase cannot be null</exception>
         </member>
-        <member name="M:Covid19Analysis.Model.CovidLocationCollection.AddAllCovidCases(System.Collections.Generic.IList{Covid19Analysis.Model.CovidCase})">
+        <member name="M:Covid19Analysis.Model.CovidLocationDataCollection.AddAllCovidCases(System.Collections.Generic.IList{Covid19Analysis.Model.CovidCase})">
             <summary>
                 Adds all of the covid cases within the specified list.
             </summary>
@@ -433,7 +433,7 @@
             <param name="stateData">The location data.</param>
             <exception cref="T:System.NullReferenceException">stateData cannot be null</exception>
         </member>
-        <member name="M:Covid19Analysis.View.OutputBuilder.GetStateSummary">
+        <member name="M:Covid19Analysis.View.OutputBuilder.GetLocationSummary">
             <summary>
                 Gets the LocationData summary.
             </summary>

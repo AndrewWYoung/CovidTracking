@@ -50,7 +50,7 @@ namespace Covid19Analysis.View
         ///     Gets the LocationData summary.
         /// </summary>
         /// <returns>A summary of the LocationData</returns>
-        public string GetStateSummary()
+        public string GetLocationSummary()
         {
             var output = "";
             output += $"{this.location.State}{Environment.NewLine}";

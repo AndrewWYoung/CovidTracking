@@ -77,18 +77,18 @@ namespace Covid19Analysis.IO
         private CovidCase processCovidData(string[] data)
         {
             var state = data[1];
-            var covidCase = new CovidCase(state, this.ExtractDateTime(data[0])) {
+            var covidCase = new CovidCase(state, this.extractDateTime(data[0])) {
                 PositiveIncrease = int.Parse(data[2]),
                 NegativeIncrease = int.Parse(data[3]),
                 DeathIncrease = int.Parse(data[4]),
                 HospitalizedIncrease = int.Parse(data[5])
             };
-            this.ExtractDateTime(data[0]);
+            this.extractDateTime(data[0]);
 
             return covidCase;
         }
 
-        private DateTime ExtractDateTime(string data)
+        private DateTime extractDateTime(string data)
         {
             var year = int.Parse(data.Substring(0, 4));
             var month = int.Parse(data.Substring(4, 2));

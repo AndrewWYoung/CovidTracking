@@ -14,7 +14,7 @@ namespace Covid19Analysis.Model
         ///     Gets or sets the name of the LocationData.
         /// </summary>
         /// <value>The name of the LocationData.</value>
-        public string State { get; set; }
+        public string Location { get; set; }
 
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Covid19Analysis.Model
         /// <exception cref="ArgumentNullException">state cannot be null</exception>
         public CovidCase(string state, DateTime date)
         {
-            this.State = state ?? throw new ArgumentNullException(nameof(state));
+            this.Location = state ?? throw new ArgumentNullException(nameof(state));
             this.Date = date;
         }
 
@@ -106,7 +106,7 @@ namespace Covid19Analysis.Model
         {
             var output = "";
             output +=
-                $"{this.Date.ToShortDateString()} {this.State} : [+Increase] {this.positiveIncrease} [-increase] {this.negativeIncrease} ";
+                $"{this.Date.ToShortDateString()} {this.Location} : [+Increase] {this.positiveIncrease} [-increase] {this.negativeIncrease} ";
             output +=
                 $"[death increase] {this.DeathIncrease} [hospitalized increase] {this.HospitalizedIncrease}{Environment.NewLine}";
             return output;
