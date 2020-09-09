@@ -11,9 +11,9 @@ namespace Covid19Analysis.Model
 
 
         /// <summary>
-        ///     Gets or sets the name of the State.
+        ///     Gets or sets the name of the LocationData.
         /// </summary>
-        /// <value>The name of the State.</value>
+        /// <value>The name of the LocationData.</value>
         public string State { get; set; }
 
 
@@ -85,7 +85,7 @@ namespace Covid19Analysis.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="CovidCase" /> class.
         /// </summary>
-        /// <param name="state">The name of the State.</param>
+        /// <param name="state">The name of the LocationData.</param>
         /// <param name="date">The date of the covid case.</param>
         /// <exception cref="ArgumentNullException">state cannot be null</exception>
         public CovidCase(string state, DateTime date)

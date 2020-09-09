@@ -5,7 +5,9 @@ using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Covid19Analysis.IO;
 using Covid19Analysis.Model;
+using Covid19Analysis.View;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -58,10 +60,10 @@ namespace Covid19Analysis
                     this.summaryTextBox.Text = "Loading...";
 
                     var csvReader = new CsvReader(storageFile);
-                    var stateDataCollection = new StateDataCollection();
+                    var stateDataCollection = new CovidLocationCollection();
                     stateDataCollection.AddAllCovidCases(await csvReader.Parse());
 
-                    var report = new Report(stateDataCollection.GetStateData("GA"));
+                    var report = new OutputBuilder(stateDataCollection.GetStateData("GA"));
                     this.summaryTextBox.Text = report.GetStateSummary() + report.GetYearlySummary();
                 }
                 catch (Exception)

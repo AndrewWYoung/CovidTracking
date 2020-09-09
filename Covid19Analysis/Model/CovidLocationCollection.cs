@@ -6,26 +6,26 @@ namespace Covid19Analysis.Model
     /// <summary>
     ///     Class to hold the collection of States
     /// </summary>
-    public class StateDataCollection
+    public class CovidLocationCollection
     {
-        private readonly Dictionary<string, StateData> stateCollection;
+        private readonly Dictionary<string, CovidLocationData> stateCollection;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="StateDataCollection"/> class.
+        ///     Initializes a new instance of the <see cref="CovidLocationCollection"/> class.
         /// </summary>
-        public StateDataCollection()
+        public CovidLocationCollection()
         {
-            this.stateCollection = new Dictionary<string, StateData>();
+            this.stateCollection = new Dictionary<string, CovidLocationData>();
         }
 
         /// <summary>
-        ///     Gets the State if it exists.
+        ///     Gets the LocationData if it exists.
         /// </summary>
         /// <param name="stateAbbreviation">The state / territory abbreviation you want to search for.</param>
-        /// <returns>The State / Territory and it's related data</returns>
-        public StateData GetStateData(string stateAbbreviation)
+        /// <returns>The LocationData / Territory and it's related data</returns>
+        public CovidLocationData GetStateData(string stateAbbreviation)
         {
-            StateData stateData = null;
+            CovidLocationData stateData = null;
             if (stateCollection.ContainsKey(stateAbbreviation))
             {
                 stateData = this.stateCollection[stateAbbreviation];
@@ -52,7 +52,7 @@ namespace Covid19Analysis.Model
             }
             else
             {
-                StateData newState = new StateData(covidCase.State);
+                CovidLocationData newState = new CovidLocationData(covidCase.State);
                 stateCollection.Add(newState.State, newState);
                 stateCollection[covidCase.State].AddCovidCase(covidCase);
             }

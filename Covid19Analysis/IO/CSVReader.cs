@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Covid19Analysis.Model;
 
-namespace Covid19Analysis.Model
+namespace Covid19Analysis.IO
 {
     /// <summary>
     ///     Reads CSV file and extracts information

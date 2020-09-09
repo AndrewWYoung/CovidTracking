@@ -6,13 +6,13 @@ using Windows.Graphics.Printing;
 namespace Covid19Analysis.Model
 {
     /// <summary>
-    ///     Stores the data for a given State / territory.
+    ///     Stores the data for a given LocationData / territory.
     /// </summary>
-    public class StateData
+    public class CovidLocationData
     {
         #region Properties        
         /// <summary>
-        ///     Gets or sets the State.
+        ///     Gets or sets the LocationData.
         /// </summary>
         /// <value>
         ///     The state to be set.
@@ -23,11 +23,11 @@ namespace Covid19Analysis.Model
 
         #region Constructors        
         /// <summary>
-        ///     Initializes a new instance of the <see cref="StateData"/> class.
+        ///     Initializes a new instance of the <see cref="CovidLocationData"/> class.
         /// </summary>
         /// <param name="state">The state / territory of the data</param>
         /// <exception cref="ArgumentNullException">state cannot be null</exception>
-        public StateData(string state)
+        public CovidLocationData(string state)
         {
             this.State = state ?? throw new ArgumentNullException(nameof(state));
             this.covidCases = new List<CovidCase>();
@@ -61,7 +61,7 @@ namespace Covid19Analysis.Model
         }
 
         /// <summary>
-        ///     Gets the earliest positive case for this State / territory
+        ///     Gets the earliest positive case for this LocationData / territory
         /// </summary>
         /// <returns>A single covid case of the earliest positive case</returns>
         public CovidCase GetEarliestPositiveCase()

@@ -1,62 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
+using Covid19Analysis.Model;
 
-namespace Covid19Analysis.Model
+namespace Covid19Analysis.View
 {
 
     /// <summary>
-    ///     Report class to showcase data on a given State
+    ///     Report class to showcase data at a given location.
     /// </summary>
-    public class Report
+    public class OutputBuilder
     {
         #region Data members
 
-        private StateData state;
+        private CovidLocationData location;
 
         #endregion
 
         #region Properties        
         /// <summary>
-        ///     Gets or sets the State for the report.
+        ///     Gets or sets the LocationData for the report.
         /// </summary>
         /// <value>
-        ///     The State.
+        ///     The LocationData.
         /// </value>
         /// <exception cref="NullReferenceException">value cannot be null</exception>
-        public StateData State
+        public CovidLocationData LocationData
         {
-            get => this.state;
-            set => this.state = value ?? throw new NullReferenceException(nameof(value));
+            get => this.location;
+            set => this.location = value ?? throw new NullReferenceException(nameof(value));
         }
 
         #endregion
 
         #region Constructors        
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Report"/> class.
+        ///     Initializes a new instance of the <see cref="OutputBuilder"/> class.
         /// </summary>
-        /// <param name="stateData">The state data.</param>
+        /// <param name="stateData">The location data.</param>
         /// <exception cref="NullReferenceException">stateData cannot be null</exception>
-        public Report(StateData stateData)
+        public OutputBuilder(CovidLocationData stateData)
         {
-            this.state = stateData ?? throw new NullReferenceException(nameof(stateData));
+            this.location = stateData ?? throw new NullReferenceException(nameof(stateData));
         }
 
         #endregion
 
         #region Methods
         /// <summary>
-        ///     Gets the State summary.
+        ///     Gets the LocationData summary.
         /// </summary>
-        /// <returns>A summary of the State</returns>
+        /// <returns>A summary of the LocationData</returns>
         public string GetStateSummary()
         {
             var output = "";
-            output += $"{this.state.State}{Environment.NewLine}";
+            output += $"{this.location.State}{Environment.NewLine}";
             output += $"{this.getEarliestKnownPositiveTest()} {Environment.NewLine}";
-            output += $"{this.getHighestNumberOfPositiveTests(this.state.GetAllCases())} {Environment.NewLine}";
+            output += $"{this.getHighestNumberOfPositiveTests(this.location.GetAllCases())} {Environment.NewLine}";
             output += $"{this.getHighestNumberOfNegativeTests()} {Environment.NewLine}";
-            output += $"{this.getHighestNumberOfTestsOfAGivenDay(this.state.GetAllCases())} {Environment.NewLine}";
+            output += $"{this.getHighestNumberOfTestsOfAGivenDay(this.location.GetAllCases())} {Environment.NewLine}";
             output += $"{this.getHighestNumberOfDeaths()} {Environment.NewLine}";
             output += $"{this.getHighestNumberOfHospitalizations()} {Environment.NewLine}";
             output += $"{this.getHighestPercentageOfPositiveTests()} {Environment.NewLine}";
@@ -76,23 +77,23 @@ namespace Covid19Analysis.Model
         public string GetMonthlySummary(Month month)
         {
             var output = month + Environment.NewLine;
-            var covidEvents = this.state.GetEventsFromMonth(month);
+            var covidEvents = this.location.GetEventsFromMonth(month);
             if (covidEvents.Count == 0)
             {
                 return "";
             }
 
-            var caseWithHighestPositiveTests = this.state.GetHighestNumberOfPositiveTests(covidEvents);
-            var caseWithLowestPositiveTests = this.state.GetLowestNumberOfPositiveTests(covidEvents);
-            var caseWithHighestTestCount = this.state.GetHighestNumberOfTestsOnAGivenDay(covidEvents);
-            var caseWithLowestTestCount = this.state.GetLowestNumberOfTotalTests(covidEvents);
-            var averageOfPositiveTests= Math.Round(this.state.GetAverageNumberOfPositiveTests(covidEvents), 2);
-            var averageOfTotalTests= Math.Round(this.state.GetAverageNumberOfAllTests(covidEvents), 2);
+            var caseWithHighestPositiveTests = this.location.GetHighestNumberOfPositiveTests(covidEvents);
+            var caseWithLowestPositiveTests = this.location.GetLowestNumberOfPositiveTests(covidEvents);
+            var caseWithHighestTestCount = this.location.GetHighestNumberOfTestsOnAGivenDay(covidEvents);
+            var caseWithLowestTestCount = this.location.GetLowestNumberOfTotalTests(covidEvents);
+            var averageOfPositiveTests= Math.Round(this.location.GetAverageNumberOfPositiveTests(covidEvents), 2);
+            var averageOfTotalTests= Math.Round(this.location.GetAverageNumberOfAllTests(covidEvents), 2);
 
-            output += $"Highest # of positive tests: {caseWithHighestPositiveTests.PositiveIncrease:N0} occurred on the {this.formatDay(caseWithHighestPositiveTests.Date.Day)} {Environment.NewLine}";
-            output += $"Lowest # of positive tests: {caseWithLowestPositiveTests.PositiveIncrease:N0} occurred on the {this.formatDay(caseWithLowestPositiveTests.Date.Day)} {Environment.NewLine}";
-            output += $"Highest # of total tests: {caseWithHighestTestCount.GetTotalTestCount():N0} occurred on the {this.formatDay(caseWithHighestTestCount.Date.Day)} {Environment.NewLine}";
-            output += $"Lowest # of total tests: {caseWithLowestTestCount.GetTotalTestCount():N0} occurred on the {this.formatDay(caseWithLowestTestCount.Date.Day)} {Environment.NewLine}";
+            output += $"Highest # of positive tests: {caseWithHighestPositiveTests.PositiveIncrease:N0} occurred on the {this.getDayWithSuffix(caseWithHighestPositiveTests.Date.Day)} {Environment.NewLine}";
+            output += $"Lowest # of positive tests: {caseWithLowestPositiveTests.PositiveIncrease:N0} occurred on the {this.getDayWithSuffix(caseWithLowestPositiveTests.Date.Day)} {Environment.NewLine}";
+            output += $"Highest # of total tests: {caseWithHighestTestCount.GetTotalTestCount():N0} occurred on the {this.getDayWithSuffix(caseWithHighestTestCount.Date.Day)} {Environment.NewLine}";
+            output += $"Lowest # of total tests: {caseWithLowestTestCount.GetTotalTestCount():N0} occurred on the {this.getDayWithSuffix(caseWithLowestTestCount.Date.Day)} {Environment.NewLine}";
             output += $"Average # of positive tests: {averageOfPositiveTests:N2} {Environment.NewLine}";
             output += $"Average # of total tests: {averageOfTotalTests:N2} {Environment.NewLine}";
 
@@ -102,7 +103,7 @@ namespace Covid19Analysis.Model
         /// <summary>
         ///     Gets the yearly summary of all months with Covid data.
         /// </summary>
-        /// <returns>A yearly summary of the covid data for the current State.</returns>
+        /// <returns>A yearly summary of the covid data for the current LocationData.</returns>
         public string GetYearlySummary()
         {
             var output = "";
@@ -116,7 +117,7 @@ namespace Covid19Analysis.Model
 
         private string getEarliestKnownPositiveTest()
         {
-            var earliestCovidCase = this.state.GetEarliestPositiveCase();
+            var earliestCovidCase = this.location.GetEarliestPositiveCase();
             var date = earliestCovidCase.Date;
             var numberOfPositiveTests = earliestCovidCase.PositiveIncrease;
             return
@@ -125,7 +126,7 @@ namespace Covid19Analysis.Model
 
         private string getHighestNumberOfPositiveTests(IList<CovidCase> covidCases)
         {
-            var highestPostiveTests = this.state.GetHighestNumberOfPositiveTests(covidCases);
+            var highestPostiveTests = this.location.GetHighestNumberOfPositiveTests(covidCases);
             var date = highestPostiveTests.Date;
             var numberOfPositiveTests = highestPostiveTests.PositiveIncrease;
             return
@@ -134,7 +135,7 @@ namespace Covid19Analysis.Model
 
         private string getHighestNumberOfNegativeTests()
         {
-            var highestNegativeTests = this.state.GetHighestNumberOfNegativeIncreases();
+            var highestNegativeTests = this.location.GetHighestNumberOfNegativeIncreases();
             var date = highestNegativeTests.Date;
             var numberOfPositiveTests = highestNegativeTests.NegativeIncrease;
             return
@@ -143,7 +144,7 @@ namespace Covid19Analysis.Model
 
         private string getHighestNumberOfTestsOfAGivenDay(IList<CovidCase> covidCases)
         {
-            var highestNumberOfTests = this.state.GetHighestNumberOfTestsOnAGivenDay(covidCases);
+            var highestNumberOfTests = this.location.GetHighestNumberOfTestsOnAGivenDay(covidCases);
             var date = highestNumberOfTests.Date;
             var totalTests = highestNumberOfTests.PositiveIncrease + highestNumberOfTests.NegativeIncrease;
             return $"Highest number of total tests occurred on [{date:MMMM dd yyyy}] with {totalTests:N0} tests.";
@@ -152,7 +153,7 @@ namespace Covid19Analysis.Model
 
         private string getHighestNumberOfDeaths()
         {
-            var highestNumberOfDeaths = this.state.GetHighestDeathsEvent();
+            var highestNumberOfDeaths = this.location.GetHighestDeathsEvent();
             var date = highestNumberOfDeaths.Date;
             var deaths = highestNumberOfDeaths.DeathIncrease;
             return $"Highest number of deaths occurred on [{date:MMMM dd yyyy}] with {deaths:N0} deaths.";
@@ -160,7 +161,7 @@ namespace Covid19Analysis.Model
 
         private string getHighestNumberOfHospitalizations()
         {
-            var highestNumberOfHospitalizations = this.state.GetHighestHospitalization();
+            var highestNumberOfHospitalizations = this.location.GetHighestHospitalization();
             var date = highestNumberOfHospitalizations.Date;
             var hospitalizations = highestNumberOfHospitalizations.HospitalizedIncrease;
             return
@@ -169,34 +170,34 @@ namespace Covid19Analysis.Model
 
         private string getHighestPercentageOfPositiveTests()
         {
-            var highestPositivePercentage = this.state.GetHighestPercentageOfPositiveTests();
+            var highestPositivePercentage = this.location.GetHighestPercentageOfPositiveTests();
             var date = highestPositivePercentage.Date;
             return $"Highest percentage of positive tests occurred on [{date:MMMM dd yyyy}]";
         }
 
         private string getAverageOfPositiveTestsSinceFirstPositiveCase()
         {
-            var averageOfPositiveTests = this.state.GetAverageNumberOfPositiveTests(this.state.GetAllCases());
+            var averageOfPositiveTests = this.location.GetAverageNumberOfPositiveTests(this.location.GetAllCases());
             return $"Average number of positive tests: {averageOfPositiveTests:N2}";
         }
 
         private string getOverallPositivityRates()
         {
-            var overallPositivityRate = this.state.GetOverallPositivityRate(this.state.GetAllCases());
+            var overallPositivityRate = this.location.GetOverallPositivityRate(this.location.GetAllCases());
             return $"Overall positivity rate of all tests: {overallPositivityRate:N2}%";
         }
 
         private string getNumberOfDaysWherePosiviteTestsAreAbove(int numberOfPostiveTests)
         {
-            return $"Number of days with Positive Tests > {numberOfPostiveTests:N0}: {this.state.GetNumberOfDaysWherePositiveTestsAreAbove(numberOfPostiveTests)}";
+            return $"Number of days with Positive Tests > {numberOfPostiveTests:N0}: {this.location.GetNumberOfDaysWherePositiveTestsAreAbove(numberOfPostiveTests)}";
         }
 
         private string getNumberOfDaysWherePositiveTetsAreBelow(int numberOfPositiveTests)
         {
-            return $"Number of days with positive tests < {numberOfPositiveTests:N0}: {this.state.GetNumberOfDaysWherePositiveTestsAreBelow(numberOfPositiveTests)}";
+            return $"Number of days with positive tests < {numberOfPositiveTests:N0}: {this.location.GetNumberOfDaysWherePositiveTestsAreBelow(numberOfPositiveTests)}";
         }
 
-        private string formatDay(int day)
+        private string getDayWithSuffix(int day)
         {
             if (day < 1 || day > 31)
             {

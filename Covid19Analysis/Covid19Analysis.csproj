@@ -124,11 +124,11 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\CovidCase.cs" />
-    <Compile Include="Model\CSVReader.cs" />
+    <Compile Include="IO\CSVReader.cs" />
     <Compile Include="Model\Month.cs" />
-    <Compile Include="Model\Report.cs" />
-    <Compile Include="Model\StateData.cs" />
-    <Compile Include="Model\StateDataCollection.cs" />
+    <Compile Include="View\OutputBuilder.cs" />
+    <Compile Include="Model\CovidLocationData.cs" />
+    <Compile Include="Model\CovidLocationCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
