@@ -54,17 +54,17 @@ namespace Covid19Analysis.View
         {
             var output = "";
             output += $"{this.location.State}{Environment.NewLine}";
-            output += $"{this.getEarliestKnownPositiveTest()} {Environment.NewLine}";
-            output += $"{this.getHighestNumberOfPositiveTests(this.location.GetAllCases())} {Environment.NewLine}";
-            output += $"{this.getHighestNumberOfNegativeTests()} {Environment.NewLine}";
-            output += $"{this.getHighestNumberOfTestsOfAGivenDay(this.location.GetAllCases())} {Environment.NewLine}";
-            output += $"{this.getHighestNumberOfDeaths()} {Environment.NewLine}";
-            output += $"{this.getHighestNumberOfHospitalizations()} {Environment.NewLine}";
-            output += $"{this.getHighestPercentageOfPositiveTests()} {Environment.NewLine}";
-            output += $"{this.getAverageOfPositiveTestsSinceFirstPositiveCase()} {Environment.NewLine}";
-            output += $"{this.getOverallPositivityRates()} {Environment.NewLine}";
-            output += $"{this.getNumberOfDaysWherePosiviteTestsAreAbove(2500)} {Environment.NewLine}";
-            output += $"{this.getNumberOfDaysWherePositiveTetsAreBelow(1000)}";
+            output += $"{this.getEarliestKnownPositiveTestStatement()} {Environment.NewLine}";
+            output += $"{this.getHighestNumberOfPositiveTestsStatement(this.location.GetAllCases())} {Environment.NewLine}";
+            output += $"{this.getHighestNumberOfNegativeTestsStatement()} {Environment.NewLine}";
+            output += $"{this.getHighestNumberOfTestsOfAGivenDayStatement(this.location.GetAllCases())} {Environment.NewLine}";
+            output += $"{this.getHighestNumberOfDeathsStatement()} {Environment.NewLine}";
+            output += $"{this.getHighestNumberOfHospitalizationsStatement()} {Environment.NewLine}";
+            output += $"{this.getHighestPercentageOfPositiveTestsStatement()} {Environment.NewLine}";
+            output += $"{this.getAverageOfPositiveTestsSinceFirstPositiveCaseStatement()} {Environment.NewLine}";
+            output += $"{this.getOverallPositivityRatesStatement()} {Environment.NewLine}";
+            output += $"{this.getNumberOfDaysWherePosiviteTestsAreAboveStatement(2500)} {Environment.NewLine}";
+            output += $"{this.getNumberOfDaysWherePositiveTetsAreBelowStatement(1000)}";
 
             return output;
         }
@@ -115,7 +115,7 @@ namespace Covid19Analysis.View
             return output;
         }
 
-        private string getEarliestKnownPositiveTest()
+        private string getEarliestKnownPositiveTestStatement()
         {
             var earliestCovidCase = this.location.GetEarliestPositiveCase();
             var date = earliestCovidCase.Date;
@@ -124,7 +124,7 @@ namespace Covid19Analysis.View
                 $"Earliest known positive case occurred on [{date:MMMM dd yyyy}] with {numberOfPositiveTests:N0} positive tests.";
         }
 
-        private string getHighestNumberOfPositiveTests(IList<CovidCase> covidCases)
+        private string getHighestNumberOfPositiveTestsStatement(IList<CovidCase> covidCases)
         {
             var highestPostiveTests = this.location.GetHighestNumberOfPositiveTests(covidCases);
             var date = highestPostiveTests.Date;
@@ -133,7 +133,7 @@ namespace Covid19Analysis.View
                 $"Highest number of positive tests occurred on [{date:MMMM dd yyyy}] with {numberOfPositiveTests:N0} positive tests.";
         }
 
-        private string getHighestNumberOfNegativeTests()
+        private string getHighestNumberOfNegativeTestsStatement()
         {
             var highestNegativeTests = this.location.GetHighestNumberOfNegativeIncreases();
             var date = highestNegativeTests.Date;
@@ -142,7 +142,7 @@ namespace Covid19Analysis.View
                 $"Highest number of negative tests occurred on [{date:MMMM dd yyyy}] with {numberOfPositiveTests:N0} negative tests.";
         }
 
-        private string getHighestNumberOfTestsOfAGivenDay(IList<CovidCase> covidCases)
+        private string getHighestNumberOfTestsOfAGivenDayStatement(IList<CovidCase> covidCases)
         {
             var highestNumberOfTests = this.location.GetHighestNumberOfTestsOnAGivenDay(covidCases);
             var date = highestNumberOfTests.Date;
@@ -151,7 +151,7 @@ namespace Covid19Analysis.View
         }
 
 
-        private string getHighestNumberOfDeaths()
+        private string getHighestNumberOfDeathsStatement()
         {
             var highestNumberOfDeaths = this.location.GetHighestDeathsEvent();
             var date = highestNumberOfDeaths.Date;
@@ -159,7 +159,7 @@ namespace Covid19Analysis.View
             return $"Highest number of deaths occurred on [{date:MMMM dd yyyy}] with {deaths:N0} deaths.";
         }
 
-        private string getHighestNumberOfHospitalizations()
+        private string getHighestNumberOfHospitalizationsStatement()
         {
             var highestNumberOfHospitalizations = this.location.GetHighestHospitalization();
             var date = highestNumberOfHospitalizations.Date;
@@ -168,7 +168,7 @@ namespace Covid19Analysis.View
                 $"Highest number of hospitalizations occurred on [{date:MMMM dd yyyy}] with {hospitalizations:N0} hospitalizations.";
         }
 
-        private string getHighestPercentageOfPositiveTests()
+        private string getHighestPercentageOfPositiveTestsStatement()
         {
             var highestPositivePercentage = this.location.GetHighestPercentageOfPositiveTests();
             var percent = (highestPositivePercentage.PositiveIncrease / (highestPositivePercentage.NegativeIncrease + highestPositivePercentage.PositiveIncrease)) * 100;
@@ -176,24 +176,24 @@ namespace Covid19Analysis.View
             return $"Highest percentage of positive tests occurred on [{date:MMMM dd yyyy}] at {percent:N2}%";
         }
 
-        private string getAverageOfPositiveTestsSinceFirstPositiveCase()
+        private string getAverageOfPositiveTestsSinceFirstPositiveCaseStatement()
         {
             var averageOfPositiveTests = this.location.GetAverageNumberOfPositiveTests(this.location.GetAllCases());
             return $"Average number of positive tests: {averageOfPositiveTests:N2}";
         }
 
-        private string getOverallPositivityRates()
+        private string getOverallPositivityRatesStatement()
         {
             var overallPositivityRate = this.location.GetOverallPositivityRate(this.location.GetAllCases());
             return $"Overall positivity rate of all tests: {overallPositivityRate:N2}%";
         }
 
-        private string getNumberOfDaysWherePosiviteTestsAreAbove(int numberOfPostiveTests)
+        private string getNumberOfDaysWherePosiviteTestsAreAboveStatement(int numberOfPostiveTests)
         {
             return $"Number of days with Positive Tests > {numberOfPostiveTests:N0}: {this.location.GetNumberOfDaysWherePositiveTestsAreAbove(numberOfPostiveTests)}";
         }
 
-        private string getNumberOfDaysWherePositiveTetsAreBelow(int numberOfPositiveTests)
+        private string getNumberOfDaysWherePositiveTetsAreBelowStatement(int numberOfPositiveTests)
         {
             return $"Number of days with positive tests < {numberOfPositiveTests:N0}: {this.location.GetNumberOfDaysWherePositiveTestsAreBelow(numberOfPositiveTests)}";
         }
