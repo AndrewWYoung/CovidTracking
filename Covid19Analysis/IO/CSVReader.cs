@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -76,25 +78,26 @@ namespace Covid19Analysis.IO
 
         private CovidCase processCovidData(string[] data)
         {
-            var state = data[1];
-            var covidCase = new CovidCase(state, this.extractDateTime(data[0])) {
-                PositiveIncrease = int.Parse(data[2]),
-                NegativeIncrease = int.Parse(data[3]),
-                DeathIncrease = int.Parse(data[4]),
-                HospitalizedIncrease = int.Parse(data[5])
-            };
-            this.extractDateTime(data[0]);
+            try
+            {
+                var dateTime = DateTime.ParseExact(data[0], "yyyyMMdd", CultureInfo.InvariantCulture);
+                var state = data[1];
 
-            return covidCase;
-        }
+                var covidCase = new CovidCase(state, dateTime)
+                {
+                    PositiveIncrease = int.Parse(data[2]),
+                    NegativeIncrease = int.Parse(data[3]),
+                    DeathIncrease = int.Parse(data[4]),
+                    HospitalizedIncrease = int.Parse(data[5])
+                };
 
-        private DateTime extractDateTime(string data)
-        {
-            var year = int.Parse(data.Substring(0, 4));
-            var month = int.Parse(data.Substring(4, 2));
-            var day = int.Parse(data.Substring(6, 2));
+                return covidCase;
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error parsing data: {e}");
+            }
 
-            return new DateTime(year, month, day);
         }
 
         #endregion
