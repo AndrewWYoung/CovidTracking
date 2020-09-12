@@ -92,8 +92,8 @@ namespace Covid19Analysis.View
 
             output += $"Highest # of positive tests: {caseWithHighestPositiveTests.PositiveIncrease:N0} occurred on the {this.getDayWithSuffix(caseWithHighestPositiveTests.Date.Day)} {Environment.NewLine}";
             output += $"Lowest # of positive tests: {caseWithLowestPositiveTests.PositiveIncrease:N0} occurred on the {this.getDayWithSuffix(caseWithLowestPositiveTests.Date.Day)} {Environment.NewLine}";
-            output += $"Highest # of total tests: {caseWithHighestTestCount.GetTotalTestCount():N0} occurred on the {this.getDayWithSuffix(caseWithHighestTestCount.Date.Day)} {Environment.NewLine}";
-            output += $"Lowest # of total tests: {caseWithLowestTestCount.GetTotalTestCount():N0} occurred on the {this.getDayWithSuffix(caseWithLowestTestCount.Date.Day)} {Environment.NewLine}";
+            output += $"Highest # of total tests: {caseWithHighestTestCount.TotalTestCount:N0} occurred on the {this.getDayWithSuffix(caseWithHighestTestCount.Date.Day)} {Environment.NewLine}";
+            output += $"Lowest # of total tests: {caseWithLowestTestCount.TotalTestCount:N0} occurred on the {this.getDayWithSuffix(caseWithLowestTestCount.Date.Day)} {Environment.NewLine}";
             output += $"Average # of positive tests: {averageOfPositiveTests:N2} {Environment.NewLine}";
             output += $"Average # of total tests: {averageOfTotalTests:N2} {Environment.NewLine}";
 

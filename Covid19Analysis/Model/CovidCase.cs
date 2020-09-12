@@ -7,6 +7,13 @@ namespace Covid19Analysis.Model
     /// </summary>
     public class CovidCase
     {
+        #region Data Members
+
+        private int positiveIncrease;
+        private int negativeIncrease;
+
+        #endregion
+
         #region Properties
 
 
@@ -41,6 +48,16 @@ namespace Covid19Analysis.Model
                     this.positiveIncrease = value;
                 }
             }
+        }
+
+
+        /// <summary>
+        ///     Gets the total test count of all positive and negative tests.
+        /// </summary>
+        /// <value>The total test count of all positive and negative tests.</value>
+        public int TotalTestCount
+        {
+            get => this.PositiveIncrease + this.NegativeIncrease; 
         }
 
 
@@ -111,22 +128,6 @@ namespace Covid19Analysis.Model
                 $"[death increase] {this.DeathIncrease} [hospitalized increase] {this.HospitalizedIncrease}{Environment.NewLine}";
             return output;
         }
-
-        /// <summary>
-        ///     Gets the total test count of both positive and negative tests for this day.
-        /// </summary>
-        /// <returns>The total test count of both positive and negative tests for this day.</returns>
-        public int GetTotalTestCount()
-        {
-            return this.PositiveIncrease + this.negativeIncrease;
-        }
-
-        #endregion
-
-        #region Data Members
-
-        private int positiveIncrease;
-        private int negativeIncrease;
 
         #endregion
     }

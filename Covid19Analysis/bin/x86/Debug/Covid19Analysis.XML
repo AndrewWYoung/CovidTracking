@@ -116,6 +116,12 @@
             </summary>
             <value>The positive increase you want to set.</value>
         </member>
+        <member name="P:Covid19Analysis.Model.CovidCase.TotalTestCount">
+            <summary>
+                Gets the total test count of all positive and negative tests.
+            </summary>
+            <value>The total test count of all positive and negative tests.</value>
+        </member>
         <member name="P:Covid19Analysis.Model.CovidCase.NegativeIncrease">
             <summary>
                 Gets or sets the negative increase.
@@ -147,12 +153,6 @@
                 Get a string representation of the Covid Case.
             </summary>
             <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
-        </member>
-        <member name="M:Covid19Analysis.Model.CovidCase.GetTotalTestCount">
-            <summary>
-                Gets the total test count of both positive and negative tests for this day.
-            </summary>
-            <returns>The total test count of both positive and negative tests for this day.</returns>
         </member>
         <member name="T:Covid19Analysis.Model.Month">
             <summary>
