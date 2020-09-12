@@ -24,7 +24,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="Covid19Analysis.exe" EntryPoint="Covid19Analysis.App">
-      <uap:VisualElements DisplayName="Covid-19 Analysis A1 by ..." Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Covid19Analysis" BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="Covid-19 Analysis A1 by Andrew Young" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Covid19Analysis" BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
@@ -44,9 +44,9 @@
   <build:Metadata>
     <build:Item Name="TargetFrameworkMoniker" Value=".NETCore,Version=v5.0" />
     <build:Item Name="VisualStudio" Version="16.0" />
-    <build:Item Name="VisualStudioEdition" Value="Microsoft Visual Studio Enterprise 2019" />
-    <build:Item Name="OperatingSystem" Version="10.0.19041.1 (WinBuild.160101.0800)" />
-    <build:Item Name="Microsoft.Build.AppxPackage.dll" Version="16.0.30223.195" />
+    <build:Item Name="VisualStudioEdition" Value="Microsoft Visual Studio Community 2019" />
+    <build:Item Name="OperatingSystem" Version="10.0.18362.1 (WinBuild.160101.0800)" />
+    <build:Item Name="Microsoft.Build.AppxPackage.dll" Version="16.0.30329.88" />
     <build:Item Name="ProjectGUID" Value="{D475DD60-1DA0-4834-9963-18BBF7894D0C}" />
     <build:Item Name="OptimizingToolset" Value="None" />
     <build:Item Name="TargetRuntime" Value="Managed" />

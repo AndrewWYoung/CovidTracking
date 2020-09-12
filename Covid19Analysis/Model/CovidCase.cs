@@ -7,15 +7,7 @@ namespace Covid19Analysis.Model
     /// </summary>
     public class CovidCase
     {
-        #region Data Members
-
-        private int positiveIncrease;
-        private int negativeIncrease;
-
-        #endregion
-
         #region Properties
-
 
         /// <summary>
         ///     Gets or sets the name of the LocationData.
@@ -34,21 +26,7 @@ namespace Covid19Analysis.Model
         ///     Gets or sets the positive increase.
         /// </summary>
         /// <value>The positive increase you want to set.</value>
-        public int PositiveIncrease
-        {
-            get => this.positiveIncrease;
-            set
-            {
-                if (value < 0)
-                {
-                    this.positiveIncrease = value * -1;
-                }
-                else
-                {
-                    this.positiveIncrease = value;
-                }
-            }
-        }
+        public int PositiveIncrease { get; set; }
 
 
         /// <summary>
@@ -57,7 +35,7 @@ namespace Covid19Analysis.Model
         /// <value>The total test count of all positive and negative tests.</value>
         public int TotalTestCount
         {
-            get => this.PositiveIncrease + this.NegativeIncrease; 
+            get => this.PositiveIncrease + this.NegativeIncrease;
         }
 
 
@@ -65,21 +43,7 @@ namespace Covid19Analysis.Model
         ///     Gets or sets the negative increase.
         /// </summary>
         /// <value>The negative increase to be set.</value>
-        public int NegativeIncrease
-        {
-            get => this.negativeIncrease;
-            set
-            {
-                if (value < 0)
-                {
-                    this.negativeIncrease = value * -1;
-                }
-                else
-                {
-                    this.negativeIncrease = value;
-                }
-            }
-        }
+        public int NegativeIncrease { get; set; }
 
         /// <summary>
         ///     Gets or sets the death increase.
@@ -123,7 +87,7 @@ namespace Covid19Analysis.Model
         {
             var output = "";
             output +=
-                $"{this.Date.ToShortDateString()} {this.Location} : [+Increase] {this.positiveIncrease} [-increase] {this.negativeIncrease} ";
+                $"{this.Date.ToShortDateString()} {this.Location} : [+Increase] {this.PositiveIncrease} [-increase] {this.NegativeIncrease} ";
             output +=
                 $"[death increase] {this.DeathIncrease} [hospitalized increase] {this.HospitalizedIncrease}{Environment.NewLine}";
             return output;
