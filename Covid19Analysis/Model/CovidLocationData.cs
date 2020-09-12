@@ -72,12 +72,12 @@ namespace Covid19Analysis.Model
             }
 
             var earliestPostiveCase = covidCases[0];
+
             foreach (var covidCase in this.covidCases)
             {
-                var result = DateTime.Compare(covidCase.Date, earliestPostiveCase.Date);
-                if (result < 0 && covidCase.PositiveIncrease > 0)
+                if (covidCase.PositiveIncrease > 0)
                 {
-                    earliestPostiveCase = covidCase;
+                    return covidCase;
                 }
             }
 
