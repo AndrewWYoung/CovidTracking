@@ -30,13 +30,13 @@
     <AppXManifest Include="C:\Users\andre\OneDrive\Desktop\CovidTracking\Covid19Analysis\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2020-09-12T17:22:22.947</Modified>
+      <Modified>2020-09-12T17:42:59.316</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\CovidTracking\Covid19Analysis\bin\x86\Debug\Covid19Analysis.exe">
       <PackagePath>entrypoint\Covid19Analysis.exe</PackagePath>
-      <Modified>2020-09-12T17:22:22.510</Modified>
+      <Modified>2020-09-12T17:42:58.881</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\andre\.nuget\packages\runtime.win10-x86.microsoft.netcore.universalwindowsplatform\6.2.8\runtimes\win10-x86\lib\uap10.0.15138\System.Runtime.dll">
       <PackagePath>System.Runtime.dll</PackagePath>
@@ -106,7 +106,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\CovidTracking\Covid19Analysis\bin\x86\Debug\Core\Covid19Analysis.exe">
       <PackagePath>Covid19Analysis.exe</PackagePath>
-      <Modified>2020-09-12T17:22:22.942</Modified>
+      <Modified>2020-09-12T17:42:59.312</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

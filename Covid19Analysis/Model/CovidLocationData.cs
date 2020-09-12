@@ -312,10 +312,10 @@ namespace Covid19Analysis.Model
 
             foreach (var covidCase in this.covidCases)
             {
-                double highestPercentage = (covidEvent.PositiveIncrease > 0) ? Convert.ToDouble(covidEvent.PositiveIncrease + covidEvent.NegativeIncrease) /
-                                                                               Convert.ToDouble(covidEvent.PositiveIncrease) : 0;
-                double currentPercentage = (covidCase.PositiveIncrease > 0) ? Convert.ToDouble(covidCase.PositiveIncrease + covidCase.NegativeIncrease) /
-                                           Convert.ToDouble(covidCase.PositiveIncrease) : 0;
+                double highestPercentage = (covidEvent.PositiveIncrease > 0) ? Convert.ToDouble(covidEvent.PositiveIncrease) /
+                                                                               Convert.ToDouble(covidEvent.PositiveIncrease + covidEvent.NegativeIncrease) : 0;
+                double currentPercentage = (covidCase.PositiveIncrease > 0) ? Convert.ToDouble(covidCase.PositiveIncrease) /
+                                           Convert.ToDouble(covidCase.PositiveIncrease + covidEvent.NegativeIncrease) : 0;
 
                 if (currentPercentage > highestPercentage)
                 {
