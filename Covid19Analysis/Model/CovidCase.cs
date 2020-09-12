@@ -33,10 +33,7 @@ namespace Covid19Analysis.Model
         ///     Gets the total test count of all positive and negative tests.
         /// </summary>
         /// <value>The total test count of all positive and negative tests.</value>
-        public int TotalTestCount
-        {
-            get => this.PositiveIncrease + this.NegativeIncrease;
-        }
+        public int TotalTestCount => this.PositiveIncrease + this.NegativeIncrease;
 
 
         /// <summary>
