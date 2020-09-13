@@ -20,6 +20,8 @@ namespace Covid19Analysis
     public sealed partial class MainPage : Page
     {
         #region Data members
+        // TODO: Maybe delete?
+        // private CsvReader csvReader;
 
         /// <summary>
         ///     The application height
@@ -33,11 +35,13 @@ namespace Covid19Analysis
 
         #endregion
 
+        #region Properties
         /// <summary>
         ///     Gets or sets the current data file to analyze.
         /// </summary>
         /// <value>The current data file to analyze.</value>
         public StorageFile CurrentFile { get; set; }
+        #endregion 
 
         #region Constructors
 
@@ -115,9 +119,26 @@ namespace Covid19Analysis
                     IList<CovidCase> covidCases = await csvReader.Parse();
                     stateDataCollection.AddAllCovidCases(covidCases);
 
-                    CovidLocationData covidLocationData = stateDataCollection.GetLocationData("AY");
-                    var report = new OutputBuilder(covidLocationData);
-                    this.summaryTextBox.Text = report.GetLocationSummary() + report.GetYearlySummary();
+                    CovidLocationData covidLocationData = stateDataCollection.GetLocationData("GA");
+
+                    
+                    if (csvReader.Errors.Count > 0)
+                    {
+                        var errors = "";
+                        foreach (var currentError in csvReader.Errors)
+                        {
+                            errors += currentError + Environment.NewLine;
+                        }
+
+                        this.summaryTextBox.Text = errors + Environment.NewLine;
+                    }
+                    
+                    OutputBuilder report;
+                    if (covidLocationData != null)
+                    {
+                        report = new OutputBuilder(covidLocationData);
+                        this.summaryTextBox.Text = report.GetLocationSummary() + report.GetYearlySummary();
+                    }
                 }
                 catch (Exception)
                 {

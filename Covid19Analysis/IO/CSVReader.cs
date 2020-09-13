@@ -74,7 +74,7 @@ namespace Covid19Analysis.IO
                     if (count != 0 && count < data.Length - 1)
                     {
                         var stateData = record.Split(this.defaultDelimiter);
-                        var covidData = this.processCovidData(stateData);
+                        var covidData = this.processCovidData(count, stateData);
                         if (covidData != null)
                         {
                             covidCollection.Add(covidData);
@@ -90,11 +90,23 @@ namespace Covid19Analysis.IO
             return covidCollection;
         }
 
-        private CovidCase processCovidData(string[] data)
+        private CovidCase processCovidData(int row, string[] data)
         {
             if (!isValid(data))
             {
-                this.errors.Add(data.ToString());
+                string line = $"Data:";
+                foreach (var item in data)
+                {
+                    if (String.IsNullOrEmpty(item))
+                    {
+                        line += " __ ";
+                    }
+                    else
+                    {
+                        line += item + " ";
+                    }
+                }
+                this.errors.Add($"ERROR: Invalid Row [{row}] - {line}");
                 return null;
             }
             try
@@ -135,7 +147,7 @@ namespace Covid19Analysis.IO
 
         private bool containsValidFields(string[] data)
         {
-            var validFields = false;
+            var validFields = true;
             foreach (var item in data)
             {
                 if (String.IsNullOrEmpty(item))
