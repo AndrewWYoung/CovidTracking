@@ -41,8 +41,11 @@ namespace Covid19Analysis.IO
             set => this.csvFile = value ?? throw new ArgumentNullException(nameof(this.csvFile));
         }
 
-        private IList<string> errors;
+        private readonly IList<string> errors;
 
+
+        /// <summary>Get all lines or errors if any.</summary>
+        /// <value>The errors.</value>
         public IList<string> Errors
         {
             get { return this.errors; }
@@ -103,21 +106,32 @@ namespace Covid19Analysis.IO
         {
             if (!isValid(data))
             {
-                string line = "";
-                foreach (var item in data)
-                {
-                    if (String.IsNullOrEmpty(item))
-                    {
-                        line += " __ ";
-                    }
-                    else
-                    {
-                        line += item + " ";
-                    }
-                }
-                this.errors.Add($"ERROR: Invalid Row [{row}] - {line}");
+                this.createErrorMessage(row, data);
                 return null;
             }
+
+            return this.createCovidCase(data);
+        }
+
+        private void createErrorMessage(int row, string[] data)
+        {
+            string line = "";
+            foreach (var item in data)
+            {
+                if (String.IsNullOrEmpty(item))
+                {
+                    line += " __ ";
+                }
+                else
+                {
+                    line += item + " ";
+                }
+            }
+            this.errors.Add($"ERROR: Invalid Row [{row}] - {line}");
+        }
+
+        private CovidCase createCovidCase(string[] data)
+        {
             try
             {
                 var dateTime = DateTime.ParseExact(data[DATE_COLUMN], DATE_FORMAT, CultureInfo.InvariantCulture);
@@ -137,7 +151,6 @@ namespace Covid19Analysis.IO
             {
                 throw new Exception($"Error parsing data: {e}");
             }
-
         }
 
         private bool isValid(string[] data)

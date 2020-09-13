@@ -409,6 +409,10 @@
             <value>The CSV file.</value>
             <exception cref="T:System.ArgumentNullException">csvFile cannot be null</exception>
         </member>
+        <member name="P:Covid19Analysis.IO.CsvReader.Errors">
+            <summary>Get all lines or errors if any.</summary>
+            <value>The errors.</value>
+        </member>
         <member name="M:Covid19Analysis.IO.CsvReader.#ctor(Windows.Storage.StorageFile)">
             <summary>Initializes a new instance of the <see cref="T:Covid19Analysis.IO.CsvReader" /> class.</summary>
             <param name="csvFile">The CSV file.</param>
