@@ -73,6 +73,12 @@
                 The application width
             </summary>
         </member>
+        <member name="P:Covid19Analysis.MainPage.CurrentFile">
+            <summary>
+                Gets or sets the current data file to analyze.
+            </summary>
+            <value>The current data file to analyze.</value>
+        </member>
         <member name="M:Covid19Analysis.MainPage.#ctor">
             <summary>
                 Initializes a new instance of the <see cref="T:Covid19Analysis.MainPage" /> class.

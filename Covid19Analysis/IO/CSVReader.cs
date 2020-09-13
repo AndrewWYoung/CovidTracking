@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Numerics;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -15,7 +16,6 @@ namespace Covid19Analysis.IO
     public class CsvReader
     {
         #region Data members
-
         private readonly char defaultDelimiter = ',';
         private StorageFile csvFile;
 
@@ -32,6 +32,14 @@ namespace Covid19Analysis.IO
             set => this.csvFile = value ?? throw new ArgumentNullException(nameof(this.csvFile));
         }
 
+        private IList<string> errors;
+
+        public IList<string> Errors
+        {
+            get { return this.errors; }
+        }
+
+
         #endregion
 
         #region Constructors
@@ -42,6 +50,7 @@ namespace Covid19Analysis.IO
         public CsvReader(StorageFile csvFile)
         {
             this.csvFile = csvFile ?? throw new ArgumentNullException(nameof(csvFile));
+            this.errors = new List<string>();
         }
 
         #endregion
@@ -53,7 +62,6 @@ namespace Covid19Analysis.IO
         public async Task<List<CovidCase>> Parse()
         {
             var covidCollection = new List<CovidCase>();
-            var text = await FileIO.ReadTextAsync(this.CsvFile);
             var buffer = await FileIO.ReadBufferAsync(this.CsvFile);
             using (var dataReader = DataReader.FromBuffer(buffer))
             {
@@ -66,7 +74,13 @@ namespace Covid19Analysis.IO
                     if (count != 0 && count < data.Length - 1)
                     {
                         var stateData = record.Split(this.defaultDelimiter);
-                        covidCollection.Add(this.processCovidData(stateData));
+                        var covidData = this.processCovidData(stateData);
+                        if (covidData != null)
+                        {
+                            covidCollection.Add(covidData);
+                        }
+                        // covidCollection.Add(this.processCovidData(stateData));
+
                     }
 
                     count++;
@@ -78,6 +92,11 @@ namespace Covid19Analysis.IO
 
         private CovidCase processCovidData(string[] data)
         {
+            if (!isValid(data))
+            {
+                this.errors.Add(data.ToString());
+                return null;
+            }
             try
             {
                 var dateTime = DateTime.ParseExact(data[0], "yyyyMMdd", CultureInfo.InvariantCulture);
@@ -98,6 +117,58 @@ namespace Covid19Analysis.IO
                 throw new Exception($"Error parsing data: {e}");
             }
 
+        }
+
+        private bool isValid(string[] data)
+        {
+            var validFields = containsValidFields(data);
+            var validDate = containsValidDate(data[0]);
+            var validPositive = containsValidNumber(data[2]);
+            var validNegative = containsValidNumber(data[3]);
+            var validDeath = containsValidNumber(data[4]);
+            var validHospitalized = containsValidNumber(data[5]);
+
+            var result = validFields && validDate && validPositive && validNegative && validDeath && validHospitalized;
+
+            return result;
+        }
+
+        private bool containsValidFields(string[] data)
+        {
+            var validFields = false;
+            foreach (var item in data)
+            {
+                if (String.IsNullOrEmpty(item))
+                {
+                    validFields = false;
+                }
+            }
+
+            return validFields;
+        }
+
+        private bool containsValidDate(string data)
+        {
+            string format = "yyyyMMdd";
+            DateTime dateTime;
+            if (DateTime.TryParseExact(data, format, CultureInfo.InvariantCulture,
+                DateTimeStyles.None, out dateTime))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool containsValidNumber(string data)
+        {
+            int number;
+            if (int.TryParse(data, out number))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         #endregion

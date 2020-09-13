@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
@@ -111,9 +112,11 @@ namespace Covid19Analysis
 
                     var csvReader = new CsvReader(this.CurrentFile);
                     var stateDataCollection = new CovidLocationDataCollection();
-                    stateDataCollection.AddAllCovidCases(await csvReader.Parse());
+                    IList<CovidCase> covidCases = await csvReader.Parse();
+                    stateDataCollection.AddAllCovidCases(covidCases);
 
-                    var report = new OutputBuilder(stateDataCollection.GetLocationData("GA"));
+                    CovidLocationData covidLocationData = stateDataCollection.GetLocationData("AY");
+                    var report = new OutputBuilder(covidLocationData);
                     this.summaryTextBox.Text = report.GetLocationSummary() + report.GetYearlySummary();
                 }
                 catch (Exception)
