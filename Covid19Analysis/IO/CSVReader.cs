@@ -16,6 +16,15 @@ namespace Covid19Analysis.IO
     public class CsvReader
     {
         #region Data members
+
+        private const int DATE_COLUMN = 0;
+        private const int LOCATION_COLUMN = 1;
+        private const int POSITIVE_COLUMN = 2;
+        private const int NEGATIVE_COLUMN = 3;
+        private const int DEATH_COLUMN = 4;
+        private const int HOSPITALIZED_COLUMN = 5;
+        private const string DATE_FORMAT = "yyyyMMdd";
+
         private readonly char defaultDelimiter = ',';
         private StorageFile csvFile;
 
@@ -57,7 +66,9 @@ namespace Covid19Analysis.IO
 
         #region Methods
 
-        /// <summary>Parses the current CSV that has been loaded in.</summary>
+        /// <summary>
+        ///     Parses the current CSV that has been loaded in.
+        /// </summary>
         /// <returns>Collection of CovidCases</returns>
         public async Task<List<CovidCase>> Parse()
         {
@@ -79,8 +90,6 @@ namespace Covid19Analysis.IO
                         {
                             covidCollection.Add(covidData);
                         }
-                        // covidCollection.Add(this.processCovidData(stateData));
-
                     }
 
                     count++;
@@ -94,7 +103,7 @@ namespace Covid19Analysis.IO
         {
             if (!isValid(data))
             {
-                string line = $"Data:";
+                string line = "";
                 foreach (var item in data)
                 {
                     if (String.IsNullOrEmpty(item))
@@ -111,15 +120,15 @@ namespace Covid19Analysis.IO
             }
             try
             {
-                var dateTime = DateTime.ParseExact(data[0], "yyyyMMdd", CultureInfo.InvariantCulture);
-                var state = data[1];
+                var dateTime = DateTime.ParseExact(data[DATE_COLUMN], DATE_FORMAT, CultureInfo.InvariantCulture);
+                var state = data[LOCATION_COLUMN];
 
                 var covidCase = new CovidCase(state, dateTime)
                 {
-                    PositiveIncrease = int.Parse(data[2]),
-                    NegativeIncrease = int.Parse(data[3]),
-                    DeathIncrease = int.Parse(data[4]),
-                    HospitalizedIncrease = int.Parse(data[5])
+                    PositiveIncrease = int.Parse(data[POSITIVE_COLUMN]),
+                    NegativeIncrease = int.Parse(data[NEGATIVE_COLUMN]),
+                    DeathIncrease = int.Parse(data[DEATH_COLUMN]),
+                    HospitalizedIncrease = int.Parse(data[HOSPITALIZED_COLUMN])
                 };
 
                 return covidCase;
@@ -134,11 +143,11 @@ namespace Covid19Analysis.IO
         private bool isValid(string[] data)
         {
             var validFields = containsValidFields(data);
-            var validDate = containsValidDate(data[0]);
-            var validPositive = containsValidNumber(data[2]);
-            var validNegative = containsValidNumber(data[3]);
-            var validDeath = containsValidNumber(data[4]);
-            var validHospitalized = containsValidNumber(data[5]);
+            var validDate = containsValidDate(data[DATE_COLUMN]);
+            var validPositive = containsValidNumber(data[POSITIVE_COLUMN]);
+            var validNegative = containsValidNumber(data[NEGATIVE_COLUMN]);
+            var validDeath = containsValidNumber(data[DEATH_COLUMN]);
+            var validHospitalized = containsValidNumber(data[HOSPITALIZED_COLUMN]);
 
             var result = validFields && validDate && validPositive && validNegative && validDeath && validHospitalized;
 
@@ -161,7 +170,7 @@ namespace Covid19Analysis.IO
 
         private bool containsValidDate(string data)
         {
-            string format = "yyyyMMdd";
+            string format = DATE_FORMAT;
             DateTime dateTime;
             if (DateTime.TryParseExact(data, format, CultureInfo.InvariantCulture,
                 DateTimeStyles.None, out dateTime))

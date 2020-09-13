@@ -415,7 +415,9 @@
             <exception cref="T:System.ArgumentNullException">csvFile cannot be null</exception>
         </member>
         <member name="M:Covid19Analysis.IO.CsvReader.Parse">
-            <summary>Parses the current CSV that has been loaded in.</summary>
+            <summary>
+                Parses the current CSV that has been loaded in.
+            </summary>
             <returns>Collection of CovidCases</returns>
         </member>
         <member name="T:Covid19Analysis.View.OutputBuilder">
