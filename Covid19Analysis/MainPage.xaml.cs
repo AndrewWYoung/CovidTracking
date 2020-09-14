@@ -21,7 +21,7 @@ namespace Covid19Analysis
     {
         #region Data members
         // TODO: Maybe delete?
-        // private CsvReader csvReader;
+        private CsvReader csvReader;
 
         /// <summary>
         ///     The application height
@@ -55,9 +55,29 @@ namespace Covid19Analysis
             ApplicationView.PreferredLaunchViewSize = new Size {Width = ApplicationWidth, Height = ApplicationHeight};
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(ApplicationWidth, ApplicationHeight));
+
+            this.csvReader = new CsvReader();
         }
 
         #endregion
+        private async void displayErrors_Click(object sender, RoutedEventArgs e)
+        {
+            string defaultOutput = "No Known Errors";
+            var errorDialog = new ContentDialog()
+            {
+                Title = "CSV Errors",
+                Content = new ScrollViewer()
+                {
+                    Content = new TextBlock()
+                    {
+                        Text = (this.csvReader.Errors.Count > 0) ? this.csvReader.GetErrorsAsString() : defaultOutput
+                    },
+                },
+                CloseButtonText = "ok"
+            };
+
+            await errorDialog.ShowAsync();
+        }
 
         private async void loadFile_Click(object sender, RoutedEventArgs e)
         {
@@ -114,30 +134,23 @@ namespace Covid19Analysis
                 {
                     this.summaryTextBox.Text = "Loading...";
 
-                    var csvReader = new CsvReader(this.CurrentFile);
+                    // var csvReader = new CsvReader(this.CurrentFile);
+                    csvReader.CsvFile = this.CurrentFile;
                     var stateDataCollection = new CovidLocationDataCollection();
                     IList<CovidCase> covidCases = await csvReader.Parse();
                     stateDataCollection.AddAllCovidCases(covidCases);
 
                     CovidLocationData covidLocationData = stateDataCollection.GetLocationData("GA");
-
-                    
-                    if (csvReader.Errors.Count > 0)
-                    {
-                        var errors = "";
-                        foreach (var currentError in csvReader.Errors)
-                        {
-                            errors += currentError + Environment.NewLine;
-                        }
-
-                        this.summaryTextBox.Text = errors + Environment.NewLine;
-                    }
-                    
                     OutputBuilder report;
+
                     if (covidLocationData != null)
                     {
                         report = new OutputBuilder(covidLocationData);
                         this.summaryTextBox.Text = report.GetLocationSummary() + report.GetYearlySummary();
+                    }
+                    else
+                    {
+                        this.summaryTextBox.Text = "No data found for the requested location.";
                     }
                 }
                 catch (Exception)

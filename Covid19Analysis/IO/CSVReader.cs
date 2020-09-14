@@ -38,7 +38,11 @@ namespace Covid19Analysis.IO
         public StorageFile CsvFile
         {
             get => this.csvFile;
-            set => this.csvFile = value ?? throw new ArgumentNullException(nameof(this.csvFile));
+            set
+            {
+                this.errors.Clear();
+                this.csvFile = value ?? throw new ArgumentNullException(nameof(this.csvFile));
+            }
         }
 
         private readonly IList<string> errors;
@@ -56,6 +60,10 @@ namespace Covid19Analysis.IO
 
         #region Constructors
 
+        public CsvReader()
+        {
+            this.errors = new List<string>();
+        }
         /// <summary>Initializes a new instance of the <see cref="CsvReader" /> class.</summary>
         /// <param name="csvFile">The CSV file.</param>
         /// <exception cref="ArgumentNullException">csvFile cannot be null</exception>
@@ -100,6 +108,21 @@ namespace Covid19Analysis.IO
             }
 
             return covidCollection;
+        }
+
+        /// <summary>Gets the errors as string.</summary>
+        /// <returns>
+        ///   A string of all errors.
+        /// </returns>
+        public string GetErrorsAsString()
+        {
+            string errors = "";
+            foreach (var currentError in this.errors)
+            {
+                errors += currentError + Environment.NewLine;
+            }
+
+            return errors;
         }
 
         private CovidCase processCovidData(int row, string[] data)

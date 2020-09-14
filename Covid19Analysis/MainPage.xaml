@@ -12,6 +12,7 @@
             <CommandBar.Content>
                 <Grid/>
             </CommandBar.Content>
+            <AppBarButton Icon="Important" Label="Display Errors" Click="displayErrors_Click"/>
             <AppBarButton Icon="OpenFile" Label="Load File" Click="loadFile_Click"/>
         </CommandBar>
         <TextBox x:Name="summaryTextBox" HorizontalAlignment="Left" Margin="12,67,0,0" VerticalAlignment="Top" TextWrapping="Wrap" Text="Summary" Height="276" Width="600" IsReadOnly="True" AutomationProperties.Name="summaryTextBlock"/>
