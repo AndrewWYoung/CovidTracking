@@ -22,6 +22,7 @@ namespace Covid19Analysis
         #region Data members
         // TODO: Maybe delete?
         private CsvReader csvReader;
+        private CovidLocationDataCollection covidCollection;
 
         /// <summary>
         ///     The application height
@@ -57,6 +58,7 @@ namespace Covid19Analysis
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(ApplicationWidth, ApplicationHeight));
 
             this.csvReader = new CsvReader();
+            this.covidCollection = new CovidLocationDataCollection();
         }
 
         #endregion
@@ -136,11 +138,10 @@ namespace Covid19Analysis
 
                     // var csvReader = new CsvReader(this.CurrentFile);
                     csvReader.CsvFile = this.CurrentFile;
-                    var stateDataCollection = new CovidLocationDataCollection();
                     IList<CovidCase> covidCases = await csvReader.Parse();
-                    stateDataCollection.AddAllCovidCases(covidCases);
+                    this.covidCollection.AddAllCovidCases(covidCases);
 
-                    CovidLocationData covidLocationData = stateDataCollection.GetLocationData("GA");
+                    CovidLocationData covidLocationData = this.covidCollection.GetLocationData("GA");
                     OutputBuilder report;
 
                     if (covidLocationData != null)
