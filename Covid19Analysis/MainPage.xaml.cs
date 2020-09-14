@@ -27,7 +27,7 @@ namespace Covid19Analysis
         /// <summary>
         ///     The application height
         /// </summary>
-        public const int ApplicationHeight = 355;
+        public const int ApplicationHeight = 400;
 
         /// <summary>
         ///     The application width
@@ -164,6 +164,37 @@ namespace Covid19Analysis
             {
                 this.summaryTextBox.Text = "No file loaded...";
             }
+        }
+
+        private async void duplicateCasesButton_Click(object sender, RoutedEventArgs e)
+        {
+            string defaultOutput = "No Duplicate Keys Found";
+            var output = "";
+            IList<CovidCase> duplicateCases = new List<CovidCase>();
+
+            if (this.covidCollection.GetLocationData("GA") != null)
+            {
+                duplicateCases = this.covidCollection.GetLocationData("GA").DuplicateCases;
+                foreach (var item in duplicateCases)
+                {
+                    output += item + Environment.NewLine;
+                }
+            }
+
+            var duplicateCasesDialog = new ContentDialog()
+            {
+                Title = "Duplicate Information",
+                Content = new ScrollViewer()
+                {
+                    Content = new TextBlock()
+                    {
+                        Text = (duplicateCases.Count > 0) ? output : defaultOutput
+                    },
+                },
+                CloseButtonText = "ok"
+            };
+
+            await duplicateCasesDialog.ShowAsync();
         }
     }
 }

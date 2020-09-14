@@ -89,7 +89,6 @@ namespace Covid19Analysis.Model
                 $"[death increase] {this.DeathIncrease} [hospitalized increase] {this.HospitalizedIncrease}{Environment.NewLine}";
             return output;
         }
-
         #endregion
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using Windows.Graphics.Printing;
 
 namespace Covid19Analysis.Model
@@ -10,6 +11,14 @@ namespace Covid19Analysis.Model
     /// </summary>
     public class CovidLocationData
     {
+        #region Member Variables
+
+        // private readonly IList<CovidCase> covidCases;
+        private IList<CovidCase> covidCases;
+        private IList<CovidCase> duplicateCases;
+
+        #endregion
+
         #region Properties        
         /// <summary>
         ///     Gets or sets the LocationData.
@@ -18,6 +27,8 @@ namespace Covid19Analysis.Model
         ///     The state to be set.
         /// </value>
         public string State { get; set; }
+
+        public IList<CovidCase> DuplicateCases => this.duplicateCases;
 
         #endregion
 
@@ -31,6 +42,7 @@ namespace Covid19Analysis.Model
         {
             this.State = state ?? throw new ArgumentNullException(nameof(state));
             this.covidCases = new List<CovidCase>();
+            this.duplicateCases = new List<CovidCase>();
         }
 
         #endregion
@@ -47,8 +59,16 @@ namespace Covid19Analysis.Model
             {
                 throw new ArgumentNullException(nameof(covidCase));
             }
-            this.covidCases.Add(covidCase);
-            this.covidCases = this.SortData();
+
+            if (this.covidCases.Any(covid => covid.Date == covidCase.Date))
+            {
+                this.duplicateCases.Add(covidCase);
+            }
+            else
+            {
+                this.covidCases.Add(covidCase);
+                this.covidCases = this.SortData();
+            }
         }
 
         /// <summary>
@@ -424,13 +444,6 @@ namespace Covid19Analysis.Model
 
             return lowestPositiveIncrease;
         }
-
-        #endregion
-
-        #region Member Variables
-
-        // private readonly IList<CovidCase> covidCases;
-        private IList<CovidCase> covidCases;
 
         #endregion
     }
