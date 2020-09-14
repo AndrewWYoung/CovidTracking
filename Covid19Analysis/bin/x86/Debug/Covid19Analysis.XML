@@ -160,71 +160,6 @@
             </summary>
             <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
         </member>
-        <member name="T:Covid19Analysis.Model.Month">
-            <summary>
-                Enumerated type: months with their appropriate natural count
-            </summary>
-        </member>
-        <member name="F:Covid19Analysis.Model.Month.January">
-            <summary>
-                January = 1
-            </summary>
-        </member>
-        <member name="F:Covid19Analysis.Model.Month.February">
-            <summary>
-                February = 2
-            </summary>
-        </member>
-        <member name="F:Covid19Analysis.Model.Month.March">
-            <summary>
-                March = 3
-            </summary>
-        </member>
-        <member name="F:Covid19Analysis.Model.Month.April">
-            <summary>
-                April = 4
-            </summary>
-        </member>
-        <member name="F:Covid19Analysis.Model.Month.May">
-            <summary>
-                May = 5
-            </summary>
-        </member>
-        <member name="F:Covid19Analysis.Model.Month.June">
-            <summary>
-                June = 6
-            </summary>
-        </member>
-        <member name="F:Covid19Analysis.Model.Month.July">
-            <summary>
-                July = 7
-            </summary>
-        </member>
-        <member name="F:Covid19Analysis.Model.Month.August">
-            <summary>
-                August = 8
-            </summary>
-        </member>
-        <member name="F:Covid19Analysis.Model.Month.September">
-            <summary>
-                September = 9
-            </summary>
-        </member>
-        <member name="F:Covid19Analysis.Model.Month.October">
-            <summary>
-                October = 10
-            </summary>
-        </member>
-        <member name="F:Covid19Analysis.Model.Month.November">
-            <summary>
-                November = 11
-            </summary>
-        </member>
-        <member name="F:Covid19Analysis.Model.Month.December">
-            <summary>
-                December = 12
-            </summary>
-        </member>
         <member name="T:Covid19Analysis.Model.CovidLocationData">
             <summary>
                 Stores the data for a given LocationData / territory.
@@ -340,7 +275,7 @@
             </summary>
             <returns>CovidCase with the highest percentage of positive tests.</returns>
         </member>
-        <member name="M:Covid19Analysis.Model.CovidLocationData.GetEventsFromMonth(Covid19Analysis.Model.Month)">
+        <member name="M:Covid19Analysis.Model.CovidLocationData.GetEventsFromMonth(System.Int32)">
             <summary>
                 Gets the events from a given month.
             </summary>
@@ -424,6 +359,12 @@
             </summary>
             <returns>Collection of CovidCases</returns>
         </member>
+        <member name="M:Covid19Analysis.IO.CsvReader.GetErrorsAsString">
+            <summary>Gets the errors as string.</summary>
+            <returns>
+              A string of all errors.
+            </returns>
+        </member>
         <member name="T:Covid19Analysis.View.OutputBuilder">
             <summary>
                 Report class to showcase data at a given location.
@@ -451,7 +392,7 @@
             </summary>
             <returns>A summary of the LocationData</returns>
         </member>
-        <member name="M:Covid19Analysis.View.OutputBuilder.GetMonthlySummary(Covid19Analysis.Model.Month)">
+        <member name="M:Covid19Analysis.View.OutputBuilder.GetMonthlySummary(System.Int32)">
             <summary>
                 Gets the monthly summary of a given month.
             </summary>

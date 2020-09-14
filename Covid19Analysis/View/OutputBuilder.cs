@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Covid19Analysis.Model;
 
 namespace Covid19Analysis.View
@@ -74,9 +75,13 @@ namespace Covid19Analysis.View
         /// </summary>
         /// <param name="month">The month to generate a report for.</param>
         /// <returns>The monthly summary of a given month.</returns>
-        public string GetMonthlySummary(Month month)
+        public string GetMonthlySummary(int month)
         {
-            var output = month + Environment.NewLine;
+            if (month < 1 || month > 12)
+            {
+                return "Invalid Month" + Environment.NewLine;
+            }
+            var output = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month) + Environment.NewLine;
             var covidEvents = this.location.GetEventsFromMonth(month);
             if (covidEvents.Count == 0)
             {
@@ -109,7 +114,7 @@ namespace Covid19Analysis.View
             var output = "";
             for (var month = 1; month <= 12; month++)
             {
-                output += this.GetMonthlySummary((Month) month) + Environment.NewLine;
+                output += this.GetMonthlySummary(month) + Environment.NewLine;
             }
 
             return output;

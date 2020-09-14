@@ -125,7 +125,6 @@
     </Compile>
     <Compile Include="Model\CovidCase.cs" />
     <Compile Include="IO\CSVReader.cs" />
-    <Compile Include="Model\Month.cs" />
     <Compile Include="View\OutputBuilder.cs" />
     <Compile Include="Model\CovidLocationData.cs" />
     <Compile Include="Model\CovidLocationDataCollection.cs" />

@@ -331,12 +331,16 @@ namespace Covid19Analysis.Model
         /// </summary>
         /// <param name="month">The month.</param>
         /// <returns>CovidCases of a given month.</returns>
-        public IList<CovidCase> GetEventsFromMonth(Month month)
+        public IList<CovidCase> GetEventsFromMonth(int month)
         {
+            if (month < 1 || month > 12)
+            {
+                throw new Exception("Invalid Month");
+            }
             var covidEvents = new List<CovidCase>();
             foreach (var covidCase in this.covidCases)
             {
-                if (covidCase.Date.Month == (int) month)
+                if (covidCase.Date.Month == month)
                 {
                     covidEvents.Add(covidCase);
                 }
