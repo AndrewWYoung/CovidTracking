@@ -136,3 +136,8 @@ C:\Users\andre\OneDrive\Desktop\CovidTracking\Covid19Analysis\obj\x86\Debug\qual
 C:\Users\andre\OneDrive\Desktop\CovidTracking\Covid19Analysis\obj\x86\Debug\MultipleQualifiersPerDimensionFound.txt
 C:\Users\andre\OneDrive\Desktop\CovidTracking\Covid19Analysis\obj\x86\Debug\ProjectArchitectures.txt
 C:\Users\andre\OneDrive\Desktop\CovidTracking\Covid19Analysis\obj\x86\Debug\.winmd_cache\$Microsoft.UI.Xaml.Markup.winmd_636885454160000000.json
+C:\Users\andre\OneDrive\Desktop\CovidTracking\Covid19Analysis\bin\x86\Debug\View\DuplicateEntryContentDialog.xbf
+C:\Users\andre\OneDrive\Desktop\CovidTracking\Covid19Analysis\obj\x86\Debug\View\DuplicateEntryContentDialog.g.i.cs
+C:\Users\andre\OneDrive\Desktop\CovidTracking\Covid19Analysis\obj\x86\Debug\View\DuplicateEntryContentDialog.g.cs
+C:\Users\andre\OneDrive\Desktop\CovidTracking\Covid19Analysis\obj\x86\Debug\View\DuplicateEntryContentDialog.xaml
+C:\Users\andre\OneDrive\Desktop\CovidTracking\Covid19Analysis\obj\x86\Debug\View\DuplicateEntryContentDialog.xbf

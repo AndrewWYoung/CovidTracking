@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
@@ -166,35 +168,85 @@ namespace Covid19Analysis
             }
         }
 
+        
         private async void duplicateCasesButton_Click(object sender, RoutedEventArgs e)
         {
             string defaultOutput = "No Duplicate Keys Found";
             var output = "";
             IList<CovidCase> duplicateCases = new List<CovidCase>();
 
-            if (this.covidCollection.GetLocationData("GA") != null)
+            var location = this.covidCollection.GetLocationData("GA");
+
+            IList<CovidCase> tempList = new List<CovidCase>();
+
+            // var result = await skipOrReplaceDialog.ShowAsync();
+            if (location != null)
             {
-                duplicateCases = this.covidCollection.GetLocationData("GA").DuplicateCases;
-                foreach (var item in duplicateCases)
+                var skipOrReplaceDialog = new DuplicateEntryContentDialog();
+                duplicateCases = location.DuplicateCases;
+                // var totalDuplicates = duplicateCases;
+                for (var i = 0; i < duplicateCases.Count; i++)
                 {
-                    output += item + Environment.NewLine;
+                    
+                    skipOrReplaceDialog.Subtitle = $"There are {duplicateCases.Count - i} items with the same date";
+                    skipOrReplaceDialog.Message = duplicateCases[i].ToString();
+                    skipOrReplaceDialog.UpdateContent();
+
+                    if (!skipOrReplaceDialog.IsChecked)
+                    { 
+                        var result = await skipOrReplaceDialog.ShowAsync();
+
+                        if (result == ContentDialogResult.Primary)
+                        {
+                            location.FindAndReplace(duplicateCases[i]);
+                            tempList.Add(duplicateCases[i]);
+                        }
+
+                        if (result == ContentDialogResult.Secondary)
+                        {
+                            // ... Do Nothing
+                        }
+                    } else if (skipOrReplaceDialog.IsChecked && skipOrReplaceDialog.LastKnownButtonPress == "Primary")
+                    {
+                        location.FindAndReplace(duplicateCases[i]);
+                        tempList.Add(duplicateCases[i]);
+                    }
+                }
+                var itemsRemoved = this.removeDuplicateItems(tempList, duplicateCases);
+
+                var dialogBox = new ContentDialog()
+                {
+                    Title = "Items Replaced",
+                    Content = $"{itemsRemoved} items have been replaced",
+                    PrimaryButtonText = "Yes!",
+                };
+                await dialogBox.ShowAsync();
+                this.displayInformation();
+            }
+        }
+
+        private int removeDuplicateItems(IList<CovidCase> tempList, IList<CovidCase> duplicateList)
+        {
+            var count = 0;
+            Debug.WriteLine($"tempList: {tempList.Count} __ duplicates: {duplicateList.Count}");
+            foreach (var currentCase in tempList)
+            {
+                var item = duplicateList.First(i => i.Date.Equals(currentCase.Date));
+                var index = duplicateList.IndexOf(item);
+
+                if (index != -1)
+                {
+                    duplicateList.RemoveAt(index);
+                    count++;
                 }
             }
-
-            var duplicateCasesDialog = new ContentDialog()
-            {
-                Title = "Duplicate Information",
-                Content = new ScrollViewer()
-                {
-                    Content = new TextBlock()
-                    {
-                        Text = (duplicateCases.Count > 0) ? output : defaultOutput
-                    },
-                },
-                CloseButtonText = "ok"
-            };
-
-            await duplicateCasesDialog.ShowAsync();
+            return count;
         }
+        /*
+        private async void duplicateCasesButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.displayReplaceOrSkipDialog();
+        }
+        */
     }
 }

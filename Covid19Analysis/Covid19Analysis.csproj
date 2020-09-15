@@ -125,6 +125,9 @@
     </Compile>
     <Compile Include="Model\CovidCase.cs" />
     <Compile Include="IO\CSVReader.cs" />
+    <Compile Include="View\DuplicateEntryContentDialog.xaml.cs">
+      <DependentUpon>DuplicateEntryContentDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\OutputBuilder.cs" />
     <Compile Include="Model\CovidLocationData.cs" />
     <Compile Include="Model\CovidLocationDataCollection.cs" />
@@ -153,6 +156,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DuplicateEntryContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

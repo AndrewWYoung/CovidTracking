@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using Windows.Graphics.Printing;
@@ -60,7 +61,7 @@ namespace Covid19Analysis.Model
                 throw new ArgumentNullException(nameof(covidCase));
             }
 
-            if (this.covidCases.Any(covid => covid.Date == covidCase.Date))
+            if (this.covidCases.Any(covid => covid.Date.Equals(covidCase.Date)))
             {
                 this.duplicateCases.Add(covidCase);
             }
@@ -443,6 +444,24 @@ namespace Covid19Analysis.Model
             }
 
             return lowestPositiveIncrease;
+        }
+
+        public void FindAndReplace(CovidCase covidCase)
+        {
+            var item = this.covidCases.First(i => i.Date.Equals(covidCase.Date));
+            var index = this.covidCases.IndexOf(item);
+
+            if (index != -1)
+                this.covidCases[index] = covidCase;
+        }
+
+        private void removeDuplicateEntry(CovidCase covidCase)
+        {
+            var item = this.duplicateCases.First(i => i.Date.Equals(covidCase.Date));
+            var index = this.duplicateCases.IndexOf(item);
+
+            if (index != -1)
+                this.duplicateCases.RemoveAt(index);
         }
 
         #endregion

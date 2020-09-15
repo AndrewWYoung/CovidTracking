@@ -89,6 +89,16 @@ namespace Covid19Analysis.Model
                 $"[death increase] {this.DeathIncrease} [hospitalized increase] {this.HospitalizedIncrease}{Environment.NewLine}";
             return output;
         }
+
+        public bool Equals(CovidCase other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return this.Date == other.Date;
+        }
         #endregion
     }
 }
