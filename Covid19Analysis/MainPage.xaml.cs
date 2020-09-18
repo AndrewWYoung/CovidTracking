@@ -22,7 +22,8 @@ namespace Covid19Analysis
     public sealed partial class MainPage : Page
     {
         #region Data members
-        // TODO: Maybe delete?
+
+        private const string LOCATION_OF_INTEREST = "GA";
         private CsvReader csvReader;
         private CovidLocationDataCollection covidCollection;
 
@@ -85,36 +86,48 @@ namespace Covid19Analysis
 
         private async void loadFile_Click(object sender, RoutedEventArgs e)
         {
-            if (this.CurrentFile != null && await promptReplaceExistingFile())
-            {
-                var fileToMerge = await this.chooseFile();
-                if (fileToMerge != null)
-                {
-                    // TODO: Add fucntionality to merge new file data into system and remove the following line.
-                    this.CurrentFile = fileToMerge;
-                }
-            }
-
             if (this.CurrentFile == null)
             {
                 this.CurrentFile = await this.chooseFile();
+            }
+            else
+            {
+                ContentDialogResult dialogResult = await promptReplaceOrMergeFile();
+                if (dialogResult == ContentDialogResult.Secondary)
+                {
+                    this.covidCollection.ClearData();
+                    await this.loadFile();
+                } else if (dialogResult != ContentDialogResult.None)
+                {
+                    await this.loadFile();
+                }
             }
 
             this.displayInformation();
         }
 
-        private async Task<bool> promptReplaceExistingFile()
+        private async Task<ContentDialogResult> promptReplaceOrMergeFile()
         {
             var dialogBox = new ContentDialog()
             {
-                Title = "Replace Existing File?",
-                Content = "Do you want to replace the current file?",
-                PrimaryButtonText = "Yes!",
-                SecondaryButtonText = "No!"
+                Title = "Replace or Merge Existing File?",
+                Content = "Do you want to replace or merge to the current file?",
+                PrimaryButtonText = "Merge!",
+                SecondaryButtonText = "Replace!",
+                CloseButtonText = "Cancel"
             };
             var result = await dialogBox.ShowAsync();
 
-            return (result == ContentDialogResult.Primary);
+            return result;
+        }
+
+        private async Task loadFile()
+        {
+            var fileToLoad = await this.chooseFile();
+            if (fileToLoad != null)
+            {
+                this.CurrentFile = fileToLoad;
+            }
         }
 
         private async Task<StorageFile> chooseFile()
@@ -138,12 +151,11 @@ namespace Covid19Analysis
                 {
                     this.summaryTextBox.Text = "Loading...";
 
-                    // var csvReader = new CsvReader(this.CurrentFile);
                     csvReader.CsvFile = this.CurrentFile;
                     IList<CovidCase> covidCases = await csvReader.Parse();
                     this.covidCollection.AddAllCovidCases(covidCases);
 
-                    CovidLocationData covidLocationData = this.covidCollection.GetLocationData("GA");
+                    CovidLocationData covidLocationData = this.covidCollection.GetLocationData(LOCATION_OF_INTEREST);
                     OutputBuilder report;
 
                     if (covidLocationData != null)
@@ -175,7 +187,7 @@ namespace Covid19Analysis
             var output = "";
             IList<CovidCase> duplicateCases = new List<CovidCase>();
 
-            var location = this.covidCollection.GetLocationData("GA");
+            var location = this.covidCollection.GetLocationData(LOCATION_OF_INTEREST);
 
             IList<CovidCase> tempList = new List<CovidCase>();
 
@@ -201,11 +213,6 @@ namespace Covid19Analysis
                             location.FindAndReplace(duplicateCases[i]);
                             tempList.Add(duplicateCases[i]);
                         }
-
-                        if (result == ContentDialogResult.Secondary)
-                        {
-                            // ... Do Nothing
-                        }
                     } else if (skipOrReplaceDialog.IsChecked && skipOrReplaceDialog.LastKnownButtonPress == "Primary")
                     {
                         location.FindAndReplace(duplicateCases[i]);
@@ -213,16 +220,23 @@ namespace Covid19Analysis
                     }
                 }
                 var itemsRemoved = this.removeDuplicateItems(tempList, duplicateCases);
-
-                var dialogBox = new ContentDialog()
+                if (itemsRemoved > 0)
                 {
-                    Title = "Items Replaced",
-                    Content = $"{itemsRemoved} items have been replaced",
-                    PrimaryButtonText = "Yes!",
-                };
-                await dialogBox.ShowAsync();
-                this.displayInformation();
+                    this.promptItemsHaveBeenReplaced(itemsRemoved);
+                }
             }
+        }
+
+        private async void promptItemsHaveBeenReplaced(int itemsRemoved)
+        {
+            var dialogBox = new ContentDialog()
+            {
+                Title = "Items Replaced",
+                Content = $"{itemsRemoved} items have been replaced",
+                PrimaryButtonText = "Yes!",
+            };
+            await dialogBox.ShowAsync();
+            this.displayInformation();
         }
 
         private int removeDuplicateItems(IList<CovidCase> tempList, IList<CovidCase> duplicateList)
@@ -242,6 +256,7 @@ namespace Covid19Analysis
             }
             return count;
         }
+
         /*
         private async void duplicateCasesButton_Click(object sender, RoutedEventArgs e)
         {

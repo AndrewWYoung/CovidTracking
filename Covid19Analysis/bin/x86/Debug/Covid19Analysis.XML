@@ -334,6 +334,11 @@
             <param name="covidCases">The covid cases you would like to add.</param>
             <exception cref="T:System.ArgumentNullException">covidCases cannot be null</exception>
         </member>
+        <member name="M:Covid19Analysis.Model.CovidLocationDataCollection.ClearData">
+            <summary>
+                Clears the data.
+            </summary>
+        </member>
         <member name="T:Covid19Analysis.IO.CsvReader">
             <summary>
                 Reads CSV file and extracts information

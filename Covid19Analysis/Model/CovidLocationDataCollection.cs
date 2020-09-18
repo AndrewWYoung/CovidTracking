@@ -75,5 +75,13 @@ namespace Covid19Analysis.Model
                 this.AddCovidCase(covidCase);
             }
         }
+
+        /// <summary>
+        ///     Clears the data.
+        /// </summary>
+        public void ClearData()
+        {
+            this.covidLocationDataCollection.Clear();
+        }
     }
 }
