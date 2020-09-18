@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography;
 using Windows.Graphics.Printing;
 
 namespace Covid19Analysis.Model
@@ -453,6 +454,16 @@ namespace Covid19Analysis.Model
 
             if (index != -1)
                 this.covidCases[index] = covidCase;
+        }
+
+        public void ClearData()
+        {
+            this.covidCases.Clear();
+        }
+
+        public int NumberOfPositiveCasesBetween(int minTestCount, int maxTestCount)
+        {
+            return this.covidCases.Where(covidCase => covidCase.PositiveIncrease >= minTestCount).Where(covidCase => covidCase.PositiveIncrease <= maxTestCount).Count();
         }
 
         private void removeDuplicateEntry(CovidCase covidCase)

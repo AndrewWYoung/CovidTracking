@@ -81,6 +81,10 @@ namespace Covid19Analysis.Model
         /// </summary>
         public void ClearData()
         {
+            foreach (var item in this.covidLocationDataCollection.Values)
+            {
+                item.ClearData();
+            }
             this.covidLocationDataCollection.Clear();
         }
     }

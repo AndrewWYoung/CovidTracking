@@ -54,8 +54,8 @@ namespace Covid19Analysis.View
         public string GetLocationSummary()
         {
             var output = "";
+
             output += $"{this.location.State}{Environment.NewLine}";
-            output += $"{this.getEarliestKnownPositiveTestStatement()} {Environment.NewLine}";
             output += $"{this.getHighestNumberOfPositiveTestsStatement(this.location.GetAllCases())} {Environment.NewLine}";
             output += $"{this.getHighestNumberOfNegativeTestsStatement()} {Environment.NewLine}";
             output += $"{this.getHighestNumberOfTestsOfAGivenDayStatement(this.location.GetAllCases())} {Environment.NewLine}";
@@ -64,8 +64,12 @@ namespace Covid19Analysis.View
             output += $"{this.getHighestPercentageOfPositiveTestsStatement()} {Environment.NewLine}";
             output += $"{this.getAverageOfPositiveTestsSinceFirstPositiveCaseStatement()} {Environment.NewLine}";
             output += $"{this.getOverallPositivityRatesStatement()} {Environment.NewLine}";
+            // need to change aparams
             output += $"{this.getNumberOfDaysWherePosiviteTestsAreAboveStatement(2500)} {Environment.NewLine}";
-            output += $"{this.getNumberOfDaysWherePositiveTetsAreBelowStatement(1000)}";
+            output += $"{this.getNumberOfDaysWherePositiveTetsAreBelowStatement(1000)} {Environment.NewLine}";
+            // end of need to change
+
+            output += $"{Environment.NewLine}{this.buildHistogramOfPositiveCases()} {Environment.NewLine}";
 
             return output;
         }
@@ -201,6 +205,23 @@ namespace Covid19Analysis.View
         private string getNumberOfDaysWherePositiveTetsAreBelowStatement(int numberOfPositiveTests)
         {
             return $"Number of days with positive tests < {numberOfPositiveTests:N0}: {this.location.GetNumberOfDaysWherePositiveTestsAreBelow(numberOfPositiveTests)}";
+        }
+
+        private string buildHistogramOfPositiveCases()
+        {
+            var startingPoint = 0;
+            var segments = 500;
+            var output = $"HISTOGRAM of Postive Tests{Environment.NewLine}";
+            var highestNumberOfCases = this.LocationData.GetHighestNumberOfPositiveTests(this.location.GetAllCases());
+            int highestPositveTests = highestNumberOfCases.PositiveIncrease;
+
+            for (int i = startingPoint; i < highestPositveTests; i += segments)
+            {
+                int numberOfCases = this.location.NumberOfPositiveCasesBetween(i, i + segments);
+                output += $"{i} - {i + segments}: {numberOfCases} {Environment.NewLine}".PadLeft(5);
+            }
+
+            return output;
         }
 
         private string getDayWithSuffix(int day)
