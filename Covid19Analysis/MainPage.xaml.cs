@@ -24,6 +24,10 @@ namespace Covid19Analysis
         #region Data members
 
         private const string LOCATION_OF_INTEREST = "GA";
+        private const int LOWER_THRESHOLD_DEFAULT = 0;
+        private const int UPPER_THRESHOLD_DEFAULT = 2500;
+        private int lowerThreshold = 0;
+        private int upperThreshold = 2500;
         private CsvReader csvReader;
         private CovidLocationDataCollection covidCollection;
 
@@ -62,6 +66,8 @@ namespace Covid19Analysis
 
             this.csvReader = new CsvReader();
             this.covidCollection = new CovidLocationDataCollection();
+            this.lowerThresholdTextBox.Text = LOWER_THRESHOLD_DEFAULT.ToString();
+            this.upperThresholdTextBox.Text = UPPER_THRESHOLD_DEFAULT.ToString();
         }
 
         #endregion
@@ -86,24 +92,43 @@ namespace Covid19Analysis
 
         private async void loadFile_Click(object sender, RoutedEventArgs e)
         {
-            if (this.CurrentFile == null)
+            // TODO:
+            this.lowerThreshold = int.Parse(this.lowerThresholdTextBox.Text);
+            this.upperThreshold = int.Parse(this.upperThresholdTextBox.Text);
+
+            var validThreshold = (this.lowerThreshold < this.upperThreshold);
+            if (validThreshold)
             {
-                this.CurrentFile = await this.chooseFile();
+                if (this.CurrentFile == null)
+                {
+                    this.CurrentFile = await this.chooseFile();
+                }
+                else
+                {
+                    ContentDialogResult dialogResult = await promptReplaceOrMergeFile();
+                    if (dialogResult == ContentDialogResult.Secondary)
+                    {
+                        this.covidCollection.ClearData();
+                        await this.loadFile();
+                    }
+                    else if (dialogResult != ContentDialogResult.None)
+                    {
+                        await this.loadFile();
+                    }
+                }
+
+                this.displayInformation();
             }
             else
             {
-                ContentDialogResult dialogResult = await promptReplaceOrMergeFile();
-                if (dialogResult == ContentDialogResult.Secondary)
+                var dialogBox = new ContentDialog()
                 {
-                    this.covidCollection.ClearData();
-                    await this.loadFile();
-                } else if (dialogResult != ContentDialogResult.None)
-                {
-                    await this.loadFile();
-                }
+                    Title = "Invalid Thresholds",
+                    Content = "Lower threshold CAN'T be higher than the upper threshold.",
+                    PrimaryButtonText = "Okay, fine...",
+                };
+                await dialogBox.ShowAsync();
             }
-
-            this.displayInformation();
         }
 
         private async Task<ContentDialogResult> promptReplaceOrMergeFile()
@@ -242,7 +267,6 @@ namespace Covid19Analysis
         private int removeDuplicateItems(IList<CovidCase> tempList, IList<CovidCase> duplicateList)
         {
             var count = 0;
-            Debug.WriteLine($"tempList: {tempList.Count} __ duplicates: {duplicateList.Count}");
             foreach (var currentCase in tempList)
             {
                 var item = duplicateList.First(i => i.Date.Equals(currentCase.Date));
@@ -255,6 +279,11 @@ namespace Covid19Analysis
                 }
             }
             return count;
+        }
+
+        private void TextBox_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
+        {
+            args.Cancel = args.NewText.Any(c => !char.IsDigit(c));
         }
 
         /*

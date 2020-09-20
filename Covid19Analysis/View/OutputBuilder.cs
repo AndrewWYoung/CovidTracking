@@ -85,11 +85,13 @@ namespace Covid19Analysis.View
             {
                 return "Invalid Month" + Environment.NewLine;
             }
-            var output = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month) + Environment.NewLine;
+
             var covidEvents = this.location.GetEventsFromMonth(month);
+            var output = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month) + $" [{covidEvents.Count} days of data]" + Environment.NewLine;
+
             if (covidEvents.Count == 0)
             {
-                return "";
+                return output;
             }
 
             var caseWithHighestPositiveTests = this.location.GetHighestNumberOfPositiveTests(covidEvents);
