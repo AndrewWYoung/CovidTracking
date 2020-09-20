@@ -31,6 +31,9 @@ namespace Covid19Analysis.View
             set => this.location = value ?? throw new NullReferenceException(nameof(value));
         }
 
+        public int UpperThreshold { get; set; }
+        public int LowerThreshold { get; set; }
+
         #endregion
 
         #region Constructors        
@@ -56,6 +59,7 @@ namespace Covid19Analysis.View
             var output = "";
 
             output += $"{this.location.State}{Environment.NewLine}";
+            output += $"{this.getEarliestKnownPositiveTestStatement()} {Environment.NewLine}";
             output += $"{this.getHighestNumberOfPositiveTestsStatement(this.location.GetAllCases())} {Environment.NewLine}";
             output += $"{this.getHighestNumberOfNegativeTestsStatement()} {Environment.NewLine}";
             output += $"{this.getHighestNumberOfTestsOfAGivenDayStatement(this.location.GetAllCases())} {Environment.NewLine}";
@@ -65,8 +69,8 @@ namespace Covid19Analysis.View
             output += $"{this.getAverageOfPositiveTestsSinceFirstPositiveCaseStatement()} {Environment.NewLine}";
             output += $"{this.getOverallPositivityRatesStatement()} {Environment.NewLine}";
             // need to change aparams
-            output += $"{this.getNumberOfDaysWherePosiviteTestsAreAboveStatement(2500)} {Environment.NewLine}";
-            output += $"{this.getNumberOfDaysWherePositiveTetsAreBelowStatement(1000)} {Environment.NewLine}";
+            output += $"{this.getNumberOfDaysWherePosiviteTestsAreAboveStatement(this.LowerThreshold)} {Environment.NewLine}";
+            output += $"{this.getNumberOfDaysWherePositiveTetsAreBelowStatement(this.UpperThreshold)} {Environment.NewLine}";
             // end of need to change
 
             output += $"{Environment.NewLine}{this.buildHistogramOfPositiveCases()} {Environment.NewLine}";

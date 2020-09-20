@@ -186,6 +186,8 @@ namespace Covid19Analysis
                     if (covidLocationData != null)
                     {
                         report = new OutputBuilder(covidLocationData);
+                        report.LowerThreshold = this.lowerThreshold;
+                        report.UpperThreshold = this.upperThreshold;
                         this.summaryTextBox.Text = report.GetLocationSummary() + report.GetYearlySummary();
                     }
                     else
