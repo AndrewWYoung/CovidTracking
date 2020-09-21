@@ -30,13 +30,13 @@
     <AppXManifest Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2020-09-20T23:00:32.792</Modified>
+      <Modified>2020-09-21T07:25:41.346</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\Covid19Analysis.exe">
       <PackagePath>entrypoint\Covid19Analysis.exe</PackagePath>
-      <Modified>2020-09-20T23:00:32.330</Modified>
+      <Modified>2020-09-21T07:25:40.891</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\andre\.nuget\packages\runtime.win10-x86.microsoft.netcore.universalwindowsplatform\6.2.8\runtimes\win10-x86\lib\uap10.0.15138\System.Runtime.dll">
       <PackagePath>System.Runtime.dll</PackagePath>
@@ -90,15 +90,15 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2020-09-20T23:00:32.129</Modified>
+      <Modified>2020-09-21T07:25:40.691</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2020-09-20T23:00:32.129</Modified>
+      <Modified>2020-09-21T07:25:40.691</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\View\DuplicateEntryContentDialog.xbf">
       <PackagePath>View\DuplicateEntryContentDialog.xbf</PackagePath>
-      <Modified>2020-09-20T23:00:32.129</Modified>
+      <Modified>2020-09-21T07:25:40.691</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.18362.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -106,11 +106,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2020-09-20T22:46:11.196</Modified>
+      <Modified>2020-09-21T00:08:12.044</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\Core\Covid19Analysis.exe">
       <PackagePath>Covid19Analysis.exe</PackagePath>
-      <Modified>2020-09-20T23:00:32.787</Modified>
+      <Modified>2020-09-21T07:25:41.341</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
-using System.Numerics;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -15,19 +13,19 @@ namespace Covid19Analysis.IO
     /// </summary>
     public class CsvReader
     {
+        #region Constants
+        private const int DateColumn = 0;
+        private const int LocationColumn = 1;
+        private const int PositiveColumn = 2;
+        private const int NegativeColumn = 3;
+        private const int DeathColumn = 4;
+        private const int HospitalizedColumn = 5;
+        private const string DateFormat = "yyyyMMdd";
+        #endregion
+
         #region Data members
-
-        private const int DATE_COLUMN = 0;
-        private const int LOCATION_COLUMN = 1;
-        private const int POSITIVE_COLUMN = 2;
-        private const int NEGATIVE_COLUMN = 3;
-        private const int DEATH_COLUMN = 4;
-        private const int HOSPITALIZED_COLUMN = 5;
-        private const string DATE_FORMAT = "yyyyMMdd";
-
         private readonly char defaultDelimiter = ',';
         private StorageFile csvFile;
-
         #endregion
 
         #region Properties
@@ -50,26 +48,18 @@ namespace Covid19Analysis.IO
 
         /// <summary>Get all lines or errors if any.</summary>
         /// <value>The errors.</value>
-        public IList<string> Errors
-        {
-            get { return this.errors; }
-        }
-
+        public IList<string> Errors => this.errors;
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CsvReader" /> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">csvFile cannot be null</exception>
         public CsvReader()
         {
-            this.errors = new List<string>();
-        }
-        /// <summary>Initializes a new instance of the <see cref="CsvReader" /> class.</summary>
-        /// <param name="csvFile">The CSV file.</param>
-        /// <exception cref="ArgumentNullException">csvFile cannot be null</exception>
-        public CsvReader(StorageFile csvFile)
-        {
-            this.csvFile = csvFile ?? throw new ArgumentNullException(nameof(csvFile));
             this.errors = new List<string>();
         }
 
@@ -157,15 +147,15 @@ namespace Covid19Analysis.IO
         {
             try
             {
-                var dateTime = DateTime.ParseExact(data[DATE_COLUMN], DATE_FORMAT, CultureInfo.InvariantCulture);
-                var state = data[LOCATION_COLUMN];
+                var dateTime = DateTime.ParseExact(data[DateColumn], DateFormat, CultureInfo.InvariantCulture);
+                var state = data[LocationColumn];
 
                 var covidCase = new CovidCase(state, dateTime)
                 {
-                    PositiveIncrease = int.Parse(data[POSITIVE_COLUMN]),
-                    NegativeIncrease = int.Parse(data[NEGATIVE_COLUMN]),
-                    DeathIncrease = int.Parse(data[DEATH_COLUMN]),
-                    HospitalizedIncrease = int.Parse(data[HOSPITALIZED_COLUMN])
+                    PositiveIncrease = int.Parse(data[PositiveColumn]),
+                    NegativeIncrease = int.Parse(data[NegativeColumn]),
+                    DeathIncrease = int.Parse(data[DeathColumn]),
+                    HospitalizedIncrease = int.Parse(data[HospitalizedColumn])
                 };
 
                 return covidCase;
@@ -179,11 +169,11 @@ namespace Covid19Analysis.IO
         private bool isValid(string[] data)
         {
             var validFields = containsValidFields(data);
-            var validDate = containsValidDate(data[DATE_COLUMN]);
-            var validPositive = containsValidNumber(data[POSITIVE_COLUMN]);
-            var validNegative = containsValidNumber(data[NEGATIVE_COLUMN]);
-            var validDeath = containsValidNumber(data[DEATH_COLUMN]);
-            var validHospitalized = containsValidNumber(data[HOSPITALIZED_COLUMN]);
+            var validDate = containsValidDate(data[DateColumn]);
+            var validPositive = containsValidNumber(data[PositiveColumn]);
+            var validNegative = containsValidNumber(data[NegativeColumn]);
+            var validDeath = containsValidNumber(data[DeathColumn]);
+            var validHospitalized = containsValidNumber(data[HospitalizedColumn]);
 
             var result = validFields && validDate && validPositive && validNegative && validDeath && validHospitalized;
 
@@ -206,10 +196,9 @@ namespace Covid19Analysis.IO
 
         private bool containsValidDate(string data)
         {
-            string format = DATE_FORMAT;
-            DateTime dateTime;
+            string format = DateFormat;
             if (DateTime.TryParseExact(data, format, CultureInfo.InvariantCulture,
-                DateTimeStyles.None, out dateTime))
+                DateTimeStyles.None, out var dateTime))
             {
                 return true;
             }
@@ -219,8 +208,7 @@ namespace Covid19Analysis.IO
 
         private bool containsValidNumber(string data)
         {
-            int number;
-            if (int.TryParse(data, out number))
+            if (int.TryParse(data, out var number))
             {
                 return true;
             }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -8,6 +7,7 @@ using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Covid19Analysis.Factory;
 using Covid19Analysis.IO;
 using Covid19Analysis.Model;
 using Covid19Analysis.View;
@@ -21,15 +21,18 @@ namespace Covid19Analysis
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        #region Data members
+        #region Constants
+        private const string LocationOfInterest = "GA";
+        private const int LowerThresholdDefault = 0;
+        private const int UpperThresholdDefault = 2500;
+        #endregion
 
-        private const string LOCATION_OF_INTEREST = "GA";
-        private const int LOWER_THRESHOLD_DEFAULT = 0;
-        private const int UPPER_THRESHOLD_DEFAULT = 2500;
-        private int lowerThreshold = 0;
+        #region Data members
+        private int lowerThreshold;
         private int upperThreshold = 2500;
-        private CsvReader csvReader;
-        private CovidLocationDataCollection covidCollection;
+        private readonly CsvReader csvReader;
+        private readonly CovidLocationDataCollection covidCollection;
+        private CovidLocationData covidLocationData;
 
         /// <summary>
         ///     The application height
@@ -66,8 +69,8 @@ namespace Covid19Analysis
 
             this.csvReader = new CsvReader();
             this.covidCollection = new CovidLocationDataCollection();
-            this.lowerThresholdTextBox.Text = LOWER_THRESHOLD_DEFAULT.ToString();
-            this.upperThresholdTextBox.Text = UPPER_THRESHOLD_DEFAULT.ToString();
+            this.lowerThresholdTextBox.Text = LowerThresholdDefault.ToString();
+            this.upperThresholdTextBox.Text = UpperThresholdDefault.ToString();
         }
 
         #endregion
@@ -92,7 +95,6 @@ namespace Covid19Analysis
 
         private async void loadFile_Click(object sender, RoutedEventArgs e)
         {
-            // TODO:
             this.lowerThreshold = int.Parse(this.lowerThresholdTextBox.Text);
             this.upperThreshold = int.Parse(this.upperThresholdTextBox.Text);
 
@@ -105,45 +107,25 @@ namespace Covid19Analysis
                 }
                 else
                 {
-                    ContentDialogResult dialogResult = await promptReplaceOrMergeFile();
-                    if (dialogResult == ContentDialogResult.Secondary)
+                    ContentDialogResult dialogResult = await DialogFactory.ShowDialog(DialogType.ReplaceOrMerge);
+                    if (dialogResult == ContentDialogResult.Primary)
+                    {
+                        await this.loadFile();
+                    }
+                    else if (dialogResult == ContentDialogResult.Secondary)
                     {
                         this.covidCollection.ClearData();
                         await this.loadFile();
                     }
-                    else if (dialogResult != ContentDialogResult.None)
-                    {
-                        await this.loadFile();
-                    }
                 }
 
-                this.displayInformation();
+                await this.extractData();
+                await this.displayInformation();
             }
             else
             {
-                var dialogBox = new ContentDialog()
-                {
-                    Title = "Invalid Thresholds",
-                    Content = "Lower threshold CAN'T be higher than the upper threshold.",
-                    PrimaryButtonText = "Okay, fine...",
-                };
-                await dialogBox.ShowAsync();
+                await DialogFactory.ShowDialog(DialogType.InvalidThresholds);
             }
-        }
-
-        private async Task<ContentDialogResult> promptReplaceOrMergeFile()
-        {
-            var dialogBox = new ContentDialog()
-            {
-                Title = "Replace or Merge Existing File?",
-                Content = "Do you want to replace or merge to the current file?",
-                PrimaryButtonText = "Merge!",
-                SecondaryButtonText = "Replace!",
-                CloseButtonText = "Cancel"
-            };
-            var result = await dialogBox.ShowAsync();
-
-            return result;
         }
 
         private async Task loadFile()
@@ -168,7 +150,19 @@ namespace Covid19Analysis
             return await picker.PickSingleFileAsync();
         }
 
-        private async void displayInformation()
+        private async Task extractData()
+        {
+            if (this.CurrentFile != null)
+            {
+                csvReader.CsvFile = this.CurrentFile;
+                IList<CovidCase> covidCases = await csvReader.Parse();
+                this.covidCollection.AddAllCovidCases(covidCases);
+
+                this.covidLocationData = this.covidCollection.GetLocationData(LocationOfInterest);
+            }
+        }
+
+        private async Task displayInformation()
         {
             if (this.CurrentFile != null)
             {
@@ -176,18 +170,13 @@ namespace Covid19Analysis
                 {
                     this.summaryTextBox.Text = "Loading...";
 
-                    csvReader.CsvFile = this.CurrentFile;
-                    IList<CovidCase> covidCases = await csvReader.Parse();
-                    this.covidCollection.AddAllCovidCases(covidCases);
-
-                    CovidLocationData covidLocationData = this.covidCollection.GetLocationData(LOCATION_OF_INTEREST);
-                    OutputBuilder report;
-
-                    if (covidLocationData != null)
+                    if (this.covidLocationData != null)
                     {
-                        report = new OutputBuilder(covidLocationData);
-                        report.LowerThreshold = this.lowerThreshold;
-                        report.UpperThreshold = this.upperThreshold;
+                        OutputBuilder report = new OutputBuilder(this.covidLocationData)
+                        {
+                            LowerThreshold = this.lowerThreshold, 
+                            UpperThreshold = this.upperThreshold
+                        };
                         this.summaryTextBox.Text = report.GetLocationSummary() + report.GetYearlySummary();
                     }
                     else
@@ -210,25 +199,22 @@ namespace Covid19Analysis
         
         private async void duplicateCasesButton_Click(object sender, RoutedEventArgs e)
         {
-            string defaultOutput = "No Duplicate Keys Found";
-            var output = "";
-            IList<CovidCase> duplicateCases = new List<CovidCase>();
-
-            var location = this.covidCollection.GetLocationData(LOCATION_OF_INTEREST);
-
             IList<CovidCase> tempList = new List<CovidCase>();
 
-            // var result = await skipOrReplaceDialog.ShowAsync();
-            if (location != null)
+            if (this.covidLocationData == null || this.covidLocationData.DuplicateCases.Count == 0)
             {
+                await DialogFactory.ShowDialog(DialogType.NoDuplicateKeys);
+            }
+
+            if (this.covidLocationData != null && this.covidLocationData.DuplicateCases.Count > 0)
+            {
+
                 var skipOrReplaceDialog = new DuplicateEntryContentDialog();
-                duplicateCases = location.DuplicateCases;
-                // var totalDuplicates = duplicateCases;
-                for (var i = 0; i < duplicateCases.Count; i++)
+
+                for (var i = 0; i < this.covidLocationData.DuplicateCases.Count; i++)
                 {
-                    
-                    skipOrReplaceDialog.Subtitle = $"There are {duplicateCases.Count - i} items with the same date";
-                    skipOrReplaceDialog.Message = duplicateCases[i].ToString();
+                    skipOrReplaceDialog.Subtitle = $"There are {this.covidLocationData.DuplicateCases.Count - i} items with the same date";
+                    skipOrReplaceDialog.Message = this.covidLocationData.DuplicateCases[i].ToString();
                     skipOrReplaceDialog.UpdateContent();
 
                     if (!skipOrReplaceDialog.IsChecked)
@@ -237,20 +223,24 @@ namespace Covid19Analysis
 
                         if (result == ContentDialogResult.Primary)
                         {
-                            location.FindAndReplace(duplicateCases[i]);
-                            tempList.Add(duplicateCases[i]);
+                            this.covidLocationData.FindAndReplace(this.covidLocationData.DuplicateCases[i]);
+                            tempList.Add(this.covidLocationData.DuplicateCases[i]);
                         }
                     } else if (skipOrReplaceDialog.IsChecked && skipOrReplaceDialog.LastKnownButtonPress == "Primary")
                     {
-                        location.FindAndReplace(duplicateCases[i]);
-                        tempList.Add(duplicateCases[i]);
+                        this.covidLocationData.FindAndReplace(this.covidLocationData.DuplicateCases[i]);
+                        tempList.Add(this.covidLocationData.DuplicateCases[i]);
                     }
                 }
-                var itemsRemoved = this.removeDuplicateItems(tempList, duplicateCases);
+
+                var itemsRemoved = this.removeDuplicateItems(tempList);
+                tempList.Clear();
                 if (itemsRemoved > 0)
                 {
                     this.promptItemsHaveBeenReplaced(itemsRemoved);
                 }
+
+                var buttonDuplicateCases3 = this.covidLocationData.DuplicateCases.Count;
             }
         }
 
@@ -263,23 +253,25 @@ namespace Covid19Analysis
                 PrimaryButtonText = "Yes!",
             };
             await dialogBox.ShowAsync();
-            this.displayInformation();
+            await this.displayInformation();
         }
 
-        private int removeDuplicateItems(IList<CovidCase> tempList, IList<CovidCase> duplicateList)
+        private int removeDuplicateItems(IList<CovidCase> tempList)
         {
+
             var count = 0;
             foreach (var currentCase in tempList)
             {
-                var item = duplicateList.First(i => i.Date.Equals(currentCase.Date));
-                var index = duplicateList.IndexOf(item);
+                
+                var item = this.covidLocationData.DuplicateCases.First(i => i.Date.Equals(currentCase.Date));
+                var index = this.covidLocationData.DuplicateCases.IndexOf(item);
 
-                if (index != -1)
-                {
-                    duplicateList.RemoveAt(index);
-                    count++;
-                }
+                if (index == -1) continue;
+                this.covidLocationData.DuplicateCases.RemoveAt(index);
+
+                count++;
             }
+
             return count;
         }
 
@@ -287,12 +279,5 @@ namespace Covid19Analysis
         {
             args.Cancel = args.NewText.Any(c => !char.IsDigit(c));
         }
-
-        /*
-        private async void duplicateCasesButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.displayReplaceOrSkipDialog();
-        }
-        */
     }
 }

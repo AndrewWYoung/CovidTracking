@@ -1,34 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Covid19Analysis.View
 {
-    public sealed partial class DuplicateEntryContentDialog : ContentDialog
+    public sealed partial class DuplicateEntryContentDialog
     {
+
+        /// <summary>Gets or sets a value indicating whether this instance is checked.</summary>
+        /// <value>
+        /// <c>true</c> if this instance is checked; otherwise, <c>false</c>.</value>
         public bool IsChecked { get; set; }
+
+        /// <summary>Gets or sets the subtitle.</summary>
+        /// <value>The subtitle.</value>
         public string Subtitle { get; set; }
+
+        /// <summary>Gets or sets the message.</summary>
+        /// <value>The message.</value>
         public string Message { get; set; }
+
+        /// <summary>Gets or sets the last known button press.</summary>
+        /// <value>The last known button press.</value>
         public string LastKnownButtonPress { get; set; }
+
+
+        /// <summary>Initializes a new instance of the <a onclick="return false;" href="DuplicateEntryContentDialog" originaltag="see">DuplicateEntryContentDialog</a> class.</summary>
         public DuplicateEntryContentDialog()
         {
             this.InitializeComponent();
             // this.IsChecked = false;
         }
 
+
+        /// <summary>Updates the content.</summary>
         public void UpdateContent()
         {
             this.subtitleTextBox.Text = Subtitle ?? "";
@@ -49,6 +55,6 @@ namespace Covid19Analysis.View
             this.LastKnownButtonPress = "Secondary";
         }
 
-        private void repeatActions_Click(object sender, RoutedEventArgs e) => this.IsChecked = (this.repeatActionForAll.IsChecked == true) ? true : false;
+        private void repeatActions_Click(object sender, RoutedEventArgs e) => this.IsChecked = (this.repeatActionForAll.IsChecked == true);
     }
 }

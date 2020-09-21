@@ -31,7 +31,17 @@ namespace Covid19Analysis.View
             set => this.location = value ?? throw new NullReferenceException(nameof(value));
         }
 
+
+        /// <summary>
+        ///     Gets or sets the upper threshold for positive cases.
+        /// </summary>
+        /// <value>The upper threshold.</value>
         public int UpperThreshold { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the lower threshold for positive cases.
+        /// </summary>
+        /// <value>The lower threshold.</value>
         public int LowerThreshold { get; set; }
 
         #endregion
@@ -68,10 +78,8 @@ namespace Covid19Analysis.View
             output += $"{this.getHighestPercentageOfPositiveTestsStatement()} {Environment.NewLine}";
             output += $"{this.getAverageOfPositiveTestsSinceFirstPositiveCaseStatement()} {Environment.NewLine}";
             output += $"{this.getOverallPositivityRatesStatement()} {Environment.NewLine}";
-            // need to change aparams
             output += $"{this.getNumberOfDaysWherePosiviteTestsAreAboveStatement(this.LowerThreshold)} {Environment.NewLine}";
             output += $"{this.getNumberOfDaysWherePositiveTetsAreBelowStatement(this.UpperThreshold)} {Environment.NewLine}";
-            // end of need to change
 
             output += $"{Environment.NewLine}{this.buildHistogramOfPositiveCases()} {Environment.NewLine}";
 
@@ -224,7 +232,7 @@ namespace Covid19Analysis.View
             for (int i = startingPoint; i < highestPositveTests; i += segments)
             {
                 int numberOfCases = this.location.NumberOfPositiveCasesBetween(i, i + segments);
-                output += $"{i} - {i + segments}: {numberOfCases} {Environment.NewLine}".PadLeft(5);
+                output += $"{i} - {i + segments}: {numberOfCases} {Environment.NewLine}";
             }
 
             return output;
