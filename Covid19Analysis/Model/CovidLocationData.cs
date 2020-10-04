@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace Covid19Analysis.Model
@@ -68,7 +69,7 @@ namespace Covid19Analysis.Model
             else
             {
                 this.locationsCovidCases.Add(covidCase);
-                this.locationsCovidCases = this.SortData();
+                // this.locationsCovidCases = this.SortData();
             }
         }
 

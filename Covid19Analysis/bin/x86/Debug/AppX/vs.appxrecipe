@@ -10,7 +10,7 @@
     <PackageArchitecture>x86</PackageArchitecture>
     <PackageIdentityName>3dbe8ef2-835e-49d6-bc2b-2311c0471adb</PackageIdentityName>
     <PackageIdentityPublisher>CN=dyoder</PackageIdentityPublisher>
-    <IntermediateOutputPath>C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\obj\x86\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\obj\x86\Debug\</IntermediateOutputPath>
     <RemoteDeploymentType>
     </RemoteDeploymentType>
     <PackageRegistrationPath>
@@ -18,7 +18,7 @@
     <RemoveNonLayoutFiles>true</RemoveNonLayoutFiles>
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
-    <LayoutDir>C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\AppX</LayoutDir>
+    <LayoutDir>C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\bin\x86\Debug\AppX</LayoutDir>
     <RegisteredManifestChecksum>7F0B3BED50E9A03AFA89F5BFA8BECEA1B783348FC51D97D887B4FD083E30CA40</RegisteredManifestChecksum>
     <RegisteredPackageMoniker>3dbe8ef2-835e-49d6-bc2b-2311c0471adb_1.0.0.0_x86__vpktpzvxd0r0j</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>3dbe8ef2-835e-49d6-bc2b-2311c0471adb_vpktpzvxd0r0j!App</RegisteredUserModeAppID>
@@ -27,16 +27,16 @@
     <RegisteredVersion>1.0.0.0</RegisteredVersion>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\Core\AppxManifest.xml">
+    <AppXManifest Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2020-09-21T07:25:41.346</Modified>
+      <Modified>2020-10-04T18:50:58.419</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\Covid19Analysis.exe">
+    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\bin\x86\Debug\Covid19Analysis.exe">
       <PackagePath>entrypoint\Covid19Analysis.exe</PackagePath>
-      <Modified>2020-09-21T07:25:40.891</Modified>
+      <Modified>2020-10-04T18:50:57.789</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\andre\.nuget\packages\runtime.win10-x86.microsoft.netcore.universalwindowsplatform\6.2.8\runtimes\win10-x86\lib\uap10.0.15138\System.Runtime.dll">
       <PackagePath>System.Runtime.dll</PackagePath>
@@ -46,71 +46,71 @@
       <PackagePath>Microsoft.UI.Xaml.Markup.winmd</PackagePath>
       <Modified>2019-03-18T22:36:56.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\Properties\Default.rd.xml">
+    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\Properties\Default.rd.xml">
       <PackagePath>Properties\Default.rd.xml</PackagePath>
       <Modified>2020-09-14T15:02:57.531</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\Assets\LockScreenLogo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
       <Modified>2020-09-14T15:02:57.521</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\Assets\SplashScreen.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2020-09-14T15:02:57.522</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\Assets\Square150x150Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2020-09-14T15:02:57.522</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\Assets\Square44x44Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2020-09-14T15:02:57.523</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2020-09-14T15:02:57.523</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\Assets\StoreLogo.png">
+    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\Assets\StoreLogo.png">
       <PackagePath>Assets\StoreLogo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2020-09-14T15:02:57.524</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\Assets\Wide310x150Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2020-09-14T15:02:57.524</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\Covid19Analysis.xr.xml">
+    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\bin\x86\Debug\Covid19Analysis.xr.xml">
       <PackagePath>Covid19Analysis.xr.xml</PackagePath>
       <Modified>2020-09-19T16:05:29.899</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\App.xbf">
+    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\bin\x86\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2020-09-21T07:25:40.691</Modified>
+      <Modified>2020-10-04T18:50:57.580</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\MainPage.xbf">
+    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2020-09-21T07:25:40.691</Modified>
+      <Modified>2020-10-04T18:50:57.580</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\View\DuplicateEntryContentDialog.xbf">
+    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\bin\x86\Debug\View\DuplicateEntryContentDialog.xbf">
       <PackagePath>View\DuplicateEntryContentDialog.xbf</PackagePath>
-      <Modified>2020-09-21T07:25:40.691</Modified>
+      <Modified>2020-10-04T18:50:57.580</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.18362.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
       <Modified>2019-03-18T21:33:42.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\resources.pri">
+    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2020-09-21T00:08:12.044</Modified>
+      <Modified>2020-10-04T18:50:57.893</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\asdasdad\Covid19Analysis\bin\x86\Debug\Core\Covid19Analysis.exe">
+    <AppxPackagedFile Include="C:\Users\andre\OneDrive\Desktop\Andrew Young\Covid19Analysis\bin\x86\Debug\Core\Covid19Analysis.exe">
       <PackagePath>Covid19Analysis.exe</PackagePath>
-      <Modified>2020-09-21T07:25:41.341</Modified>
+      <Modified>2020-10-04T18:50:58.414</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

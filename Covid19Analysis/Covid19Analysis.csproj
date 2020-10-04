@@ -120,8 +120,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Factory\DialogFactory.cs" />
-    <Compile Include="Factory\DialogType.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -130,7 +128,7 @@
     <Compile Include="View\DuplicateEntryContentDialog.xaml.cs">
       <DependentUpon>DuplicateEntryContentDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\OutputBuilder.cs" />
+    <Compile Include="View\CovidOutputBuilder.cs" />
     <Compile Include="Model\CovidLocationData.cs" />
     <Compile Include="Model\CovidLocationDataCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

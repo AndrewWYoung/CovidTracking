@@ -7,7 +7,6 @@ using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Covid19Analysis.Factory;
 using Covid19Analysis.IO;
 using Covid19Analysis.Model;
 using Covid19Analysis.View;
@@ -107,16 +106,7 @@ namespace Covid19Analysis
                 }
                 else
                 {
-                    ContentDialogResult dialogResult = await DialogFactory.ShowDialog(DialogType.ReplaceOrMerge);
-                    if (dialogResult == ContentDialogResult.Primary)
-                    {
-                        await this.loadFile();
-                    }
-                    else if (dialogResult == ContentDialogResult.Secondary)
-                    {
-                        this.covidCollection.ClearData();
-                        await this.loadFile();
-                    }
+                    await this.promptDisplayOrMerge();
                 }
 
                 await this.extractData();
@@ -124,7 +114,21 @@ namespace Covid19Analysis
             }
             else
             {
-                await DialogFactory.ShowDialog(DialogType.InvalidThresholds);
+                this.displayDialogInvalidThreshold();
+            }
+        }
+
+        private async Task promptDisplayOrMerge()
+        {
+            ContentDialogResult dialogResult = await this.displayDialogReplaceOrMergeCase();
+            if (dialogResult == ContentDialogResult.Primary)
+            {
+                await this.loadFile();
+            }
+            else if (dialogResult == ContentDialogResult.Secondary)
+            {
+                this.covidCollection.ClearData();
+                await this.loadFile();
             }
         }
 
@@ -166,29 +170,7 @@ namespace Covid19Analysis
         {
             if (this.CurrentFile != null)
             {
-                try
-                {
-                    this.summaryTextBox.Text = "Loading...";
-
-                    if (this.covidLocationData != null)
-                    {
-                        OutputBuilder report = new OutputBuilder(this.covidLocationData)
-                        {
-                            LowerThreshold = this.lowerThreshold, 
-                            UpperThreshold = this.upperThreshold
-                        };
-                        this.summaryTextBox.Text = report.GetLocationSummary() + report.GetYearlySummary();
-                    }
-                    else
-                    {
-                        this.summaryTextBox.Text = "No data found for the requested location.";
-                    }
-                }
-                catch (Exception)
-                {
-                    var message = "Invalid File. Please make sure you have chosen the correct file or ensure the file is in the proper format.";
-                    this.summaryTextBox.Text = message;
-                }
+                this.buildAndSetSummaryReport();
             }
             else
             {
@@ -196,14 +178,40 @@ namespace Covid19Analysis
             }
         }
 
-        
+        private void buildAndSetSummaryReport()
+        {
+            try
+            {
+                this.summaryTextBox.Text = "Loading...";
+
+                if (this.covidLocationData != null)
+                {
+                    CovidOutputBuilder report = new CovidOutputBuilder(this.covidLocationData) {
+                        LowerThreshold = this.lowerThreshold,
+                        UpperThreshold = this.upperThreshold
+                    };
+                    this.summaryTextBox.Text = report.GetLocationSummary() + report.GetYearlySummary();
+                }
+                else
+                {
+                    this.summaryTextBox.Text = "No data found for the requested location.";
+                }
+            }
+            catch (Exception)
+            {
+                var message =
+                    "Invalid File. Please make sure you have chosen the correct file or ensure the file is in the proper format.";
+                this.summaryTextBox.Text = message;
+            }
+        }
+
         private async void duplicateCasesButton_Click(object sender, RoutedEventArgs e)
         {
             IList<CovidCase> tempList = new List<CovidCase>();
 
             if (this.covidLocationData == null || this.covidLocationData.DuplicateCases.Count == 0)
             {
-                await DialogFactory.ShowDialog(DialogType.NoDuplicateKeys);
+                this.displayDialogNoDuplicateKeysFound();
             }
 
             if (this.covidLocationData != null && this.covidLocationData.DuplicateCases.Count > 0)
@@ -239,8 +247,6 @@ namespace Covid19Analysis
                 {
                     this.promptItemsHaveBeenReplaced(itemsRemoved);
                 }
-
-                var buttonDuplicateCases3 = this.covidLocationData.DuplicateCases.Count;
             }
         }
 
@@ -278,6 +284,42 @@ namespace Covid19Analysis
         private void TextBox_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
         {
             args.Cancel = args.NewText.Any(c => !char.IsDigit(c));
+        }
+
+        private async void displayDialogInvalidThreshold()
+        {
+            var invalidThresholdDialog = new ContentDialog()
+            {
+                Title = "Invalid Thresholds",
+                Content = "Lower threshold CAN'T be higher than the upper threshold.",
+                PrimaryButtonText = "Okay, fine...",
+            };
+            await invalidThresholdDialog.ShowAsync();
+        }
+
+        private async void displayDialogNoDuplicateKeysFound()
+        {
+            var noDuplicateKeysDialog = new ContentDialog()
+            {
+                Title = "No Duplicate Keys Found",
+                Content = "No duplicate keys have been found",
+                PrimaryButtonText = "Okay!",
+            };
+            await noDuplicateKeysDialog.ShowAsync();
+        }
+
+        private async Task<ContentDialogResult> displayDialogReplaceOrMergeCase()
+        {
+            var mergeOrReplaceDialog = new ContentDialog()
+            {
+                Title = "Replace or Merge Existing File?",
+                Content = "Do you want to replace or merge to the current file?",
+                PrimaryButtonText = "Merge!",
+                SecondaryButtonText = "Replace!",
+                CloseButtonText = "Cancel"
+            };
+            var mergeOrReplaceResult = await mergeOrReplaceDialog.ShowAsync();
+            return mergeOrReplaceResult;
         }
     }
 }

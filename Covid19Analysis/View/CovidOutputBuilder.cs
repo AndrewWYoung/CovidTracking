@@ -9,7 +9,7 @@ namespace Covid19Analysis.View
     /// <summary>
     ///     Report class to showcase data at a given location.
     /// </summary>
-    public class OutputBuilder
+    public class CovidOutputBuilder
     {
         #region Data members
 
@@ -48,11 +48,11 @@ namespace Covid19Analysis.View
 
         #region Constructors        
         /// <summary>
-        ///     Initializes a new instance of the <see cref="OutputBuilder"/> class.
+        ///     Initializes a new instance of the <see cref="CovidOutputBuilder"/> class.
         /// </summary>
         /// <param name="stateData">The location data.</param>
         /// <exception cref="NullReferenceException">stateData cannot be null</exception>
-        public OutputBuilder(CovidLocationData stateData)
+        public CovidOutputBuilder(CovidLocationData stateData)
         {
             this.location = stateData ?? throw new NullReferenceException(nameof(stateData));
         }
@@ -228,6 +228,7 @@ namespace Covid19Analysis.View
             var output = $"HISTOGRAM of Postive Tests{Environment.NewLine}";
             var highestNumberOfCases = this.LocationData.GetHighestNumberOfPositiveTests(this.location.GetAllCases());
             int highestPositveTests = highestNumberOfCases.PositiveIncrease;
+
 
             for (int i = startingPoint; i < highestPositveTests; i += segments)
             {

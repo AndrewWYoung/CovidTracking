@@ -5,6 +5,10 @@ using Windows.UI.Xaml.Controls;
 
 namespace Covid19Analysis.View
 {
+
+    /// <summary>
+    ///   Class for creating a duplicate entry content dialog
+    /// </summary>
     public sealed partial class DuplicateEntryContentDialog
     {
 
